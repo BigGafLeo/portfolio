@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   href?: string;
   style?: React.CSSProperties;
+  download?: boolean; // ✅ Nowy props
 }
 
 export const MyButton = ({
@@ -16,10 +17,16 @@ export const MyButton = ({
   onClick,
   href,
   style,
+  download, // ✅ Pobieramy go tutaj
 }: ButtonProps) => {
   if (href) {
     return (
-      <StyledLink href={href} variant={variant} style={style}>
+      <StyledLink
+        href={href}
+        variant={variant}
+        style={style}
+        download={download}
+      >
         {children}
       </StyledLink>
     );
@@ -32,7 +39,7 @@ export const MyButton = ({
   );
 };
 
-// **Style bazowe dla przycisku**
+// 📌 **Style bazowe dla przycisku**
 const baseStyles = css`
   display: inline-flex;
   align-items: center;
@@ -48,7 +55,7 @@ const baseStyles = css`
     border-color 0.3s ease-in-out;
 `;
 
-// **Główne style przycisku**
+// 📌 **Główne style przycisku**
 const StyledButton = styled.button<{ variant: ButtonVariant }>`
   ${baseStyles}
   border: none;
@@ -99,7 +106,7 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
   }}
 `;
 
-// **Styl dla przycisku jako link**
+// 📌 **Styl dla przycisku jako link (dodajemy `download`)**
 const StyledLink = styled.a<{ variant: ButtonVariant }>`
   ${baseStyles}
 

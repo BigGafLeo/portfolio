@@ -6,7 +6,7 @@ export const MainNav = () => {
       <NavItem href="/">Home</NavItem>
       <NavItem href="aboutme">About</NavItem>
       <NavItem>Projects</NavItem>
-      <NavItem>Contact</NavItem>
+      <NavItem href="contact">Contact</NavItem>
     </NavMenu>
   );
 };

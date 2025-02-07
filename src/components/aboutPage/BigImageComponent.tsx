@@ -10,8 +10,9 @@ export const BigImageComponent = () => {
 };
 
 const ImageContainer = styled.div`
+  width: 100%;
+  max-width: inherit;
   flex-shrink: 0;
-  width: 80vw;
   height: 30rem;
   display: flex;
   align-items: center;

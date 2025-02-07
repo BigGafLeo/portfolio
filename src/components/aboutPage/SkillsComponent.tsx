@@ -114,6 +114,7 @@ const Container = styled.div`
   align-items: center;
   padding: ${({ theme }) => theme.spacing.large};
   width: 100%;
+  max-width: inherit;
 `;
 
 const Title = styled.h2`
