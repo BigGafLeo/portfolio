@@ -33,6 +33,8 @@ export const palette = {
   softPetals: '#ECFFF3',
   secretGarden: '#12B76A',
   fernGreen: '#2B7858',
+  mint: '#9eb8a0',
+  mintblue: '#98fbcb',
 
   //additional
   crisps: '#F3CC66',
@@ -104,6 +106,7 @@ export const theme: DefaultTheme = {
     m: '4px',
     l: '8px',
     xl: '16px',
+    xxl: '80px',
     pill: '9999px',
     round: '50%',
   },
@@ -113,8 +116,8 @@ export const theme: DefaultTheme = {
   },
   fontSizes: {
     small: '14px',
-    medium: '16px',
-    large: '20px',
+    medium: '18px',
+    large: '24px',
     heading: '2.5em',
   },
   spacing: {

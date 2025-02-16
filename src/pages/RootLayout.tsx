@@ -1,15 +1,20 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../components/general/Header';
+import { ModalProvider } from '../context/ModalContext'; // Import kontekstu modala
+import { BookingModal } from '../components/general/bookingModal/BookingModal'; // Import modala
 import styled from 'styled-components';
 
 export const RootLayout = () => {
   return (
-    <LayoutContainer>
-      <Header />
-      <MainContent>
-        <Outlet />
-      </MainContent>
-    </LayoutContainer>
+    <ModalProvider>
+      <LayoutContainer>
+        <Header />
+        <BookingModal /> {/* Modal dostępny w całym layoutcie */}
+        <MainContent>
+          <Outlet />
+        </MainContent>
+      </LayoutContainer>
+    </ModalProvider>
   );
 };
 

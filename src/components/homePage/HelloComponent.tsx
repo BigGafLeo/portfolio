@@ -9,7 +9,7 @@ export const AboutMeComponent = () => {
         <h1>I'm Karol</h1>
         <h2>Web and blockchain developer</h2>
         <p>
-          I Have more than 4 years of expirience in designing and implementing
+          I Have more than 3 years of expirience in designing and implementing
           high-quality products
         </p>
         <MyButton

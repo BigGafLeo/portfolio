@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { MyButton } from './StyledButton';
 import { MainNav } from './MainNav';
+import { useModal } from '../../context/ModalContext';
 
 export const Header = () => {
+  const { openModal } = useModal();
   return (
     <MainDiv>
       <BorderDiv>
@@ -14,7 +16,9 @@ export const Header = () => {
           <StatusDot />
           <StatusText>Open for work</StatusText>
         </StatusContainer>
-        <MyButton variant="primary">Book a Call</MyButton>
+        <MyButton variant="primary" onClick={openModal}>
+          Book a Call
+        </MyButton>
       </BorderDiv>
     </MainDiv>
   );

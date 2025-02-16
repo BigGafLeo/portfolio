@@ -45,8 +45,8 @@ const Grid = styled.div`
 const Title = styled.h1``;
 
 const Tile = styled.button`
-  background-color: ${({ theme }) => theme.palette.secretGarden};
-  color: ${({ theme }) => theme.palette.white};
+  background-color: ${({ theme }) => theme.palette.mintblue};
+  color: ${({ theme }) => theme.palette.bigstone};
   font-size: ${({ theme }) => theme.fontSizes.large}; /* Większa czcionka */
   padding: ${({ theme }) => theme.spacing.extraLarge}; /* Większy padding */
   border-radius: ${({ theme }) =>

@@ -4,6 +4,7 @@ import About from './pages/About';
 import { RootLayout } from './pages/RootLayout';
 import { ErrorPage } from './pages/Error';
 import { Contact } from './pages/Contact';
+import { Projects } from './pages/Projects';
 
 // const router = createBrowserRouter([
 //   { path: '/', element: <Home /> },
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
         path: 'contact',
         index: true,
         element: <Contact />,
+      },
+      {
+        path: 'projects',
+        index: true,
+        element: <Projects />,
       },
     ],
   },
