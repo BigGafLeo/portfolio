@@ -125,5 +125,6 @@ export const theme: DefaultTheme = {
     medium: '16px',
     large: '24px',
     extraLarge: '62px',
+    tenHeight: '15vh',
   },
 } as const;

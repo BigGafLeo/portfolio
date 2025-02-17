@@ -1,17 +1,26 @@
 import styled from 'styled-components';
 
-export const WhatIDo = () => {
+interface WhatIDoProps {
+  serviceRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
+}
+
+export const WhatIDo: React.FC<WhatIDoProps> = ({ serviceRefs }) => {
+  const scrollToService = (index: number) => {
+    serviceRefs.current[index]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
+
   return (
     <MainContainer>
       <Title>What I can help You with:</Title>
       <Container>
         <Grid>
-          <Tile>Websites</Tile>
-          <Tile>API's</Tile>
-          <Tile>Automatization</Tile>
-          <Tile>AI Implementation</Tile>
-          <Tile>Web3 & Blockchain</Tile>
-          <Tile>Algorithmic Trading</Tile>
+          <Tile onClick={() => scrollToService(0)}>Websites</Tile>
+          <Tile onClick={() => scrollToService(1)}>Automatization</Tile>
+          <Tile onClick={() => scrollToService(2)}>AI Implementation</Tile>
+          <Tile onClick={() => scrollToService(3)}>Web3 & Blockchain</Tile>
         </Grid>
       </Container>
     </MainContainer>
@@ -35,11 +44,11 @@ const Container = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(200px, 1fr)); /* Większe kolumny */
-  grid-template-rows: repeat(3, 1fr); /* Wiersze tej samej wysokości */
-  gap: ${({ theme }) => theme.spacing.large}; /* Większe odstępy */
-  width: 600px; /* Większa szerokość całego grid */
-  align-items: stretch; /* Kafelki rozciągają się do tej samej wysokości */
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-template-rows: repeat(2, 1fr);
+  gap: ${({ theme }) => theme.spacing.large};
+  width: 600px;
+  align-items: stretch;
 `;
 
 const Title = styled.h1``;
@@ -47,25 +56,22 @@ const Title = styled.h1``;
 const Tile = styled.button`
   background-color: ${({ theme }) => theme.palette.mintblue};
   color: ${({ theme }) => theme.palette.bigstone};
-  font-size: ${({ theme }) => theme.fontSizes.large}; /* Większa czcionka */
-  padding: ${({ theme }) => theme.spacing.extraLarge}; /* Większy padding */
-  border-radius: ${({ theme }) =>
-    theme.borderRadiuses.l}; /* Większe zaokrąglenie */
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  padding: ${({ theme }) => theme.spacing.extraLarge};
+  border-radius: ${({ theme }) => theme.borderRadiuses.l};
   border: none;
   cursor: pointer;
   text-align: center;
   transition:
     background-color 0.3s ease-in-out,
     transform 0.2s ease-in-out;
-
-  /* Ustawienie flexa, aby treść była wyśrodkowana */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Kafelki zawsze pełnej wysokości */
+  height: 100%;
 
   &:hover {
     background-color: ${({ theme }) => theme.palette.fernGreen};
-    transform: scale(1.05); /* Efekt powiększenia */
+    transform: scale(1.05);
   }
 `;

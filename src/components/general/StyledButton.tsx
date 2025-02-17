@@ -8,7 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   href?: string;
   style?: React.CSSProperties;
-  download?: boolean; // ✅ Nowy props
+  download?: boolean;
 }
 
 export const MyButton = ({
@@ -17,7 +17,7 @@ export const MyButton = ({
   onClick,
   href,
   style,
-  download, // ✅ Pobieramy go tutaj
+  download,
 }: ButtonProps) => {
   if (href) {
     return (

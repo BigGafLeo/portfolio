@@ -9,56 +9,39 @@ export const AboutMeComponent = () => {
         <h1>I'm Karol</h1>
         <h2>Web and blockchain developer</h2>
         <p>
-          I Have more than 3 years of expirience in designing and implementing
-          high-quality products
+          I have more than 3 years of experience in designing and implementing
+          high-quality products.
         </p>
         <MyButton
           variant="primary"
-          style={{ margin: '20px 0 0 0 ', maxWidth: '150px' }}
+          style={{ marginTop: '20px', maxWidth: '150px' }}
         >
           Send inquiry
         </MyButton>
       </DescContainer>
-      <CardRow>
-        <ImageContainer>
-          <ProfileImage src="/temp.jpg" alt="Profilowe" />
-        </ImageContainer>
-      </CardRow>
+
+      <ProfileImage src="/temp.jpg" alt="Profile" />
     </Card>
   );
 };
 
 const Card = styled.div`
-  padding: ${({ theme }) => theme.spacing.medium};
+  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  display: flex;
   background-color: ${({ theme }) => theme.palette.mystic};
   color: ${({ theme }) => theme.colors.text.default};
   gap: ${({ theme }) => theme.spacing.small};
-`;
-
-const CardRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.small};
-  justify-content: space-evenly;
-`;
-
-const ImageContainer = styled.div`
-  flex-shrink: 0;
-  margin-right: ${({ theme }) => theme.spacing.medium};
-  width: 20rem;
-  height: 30rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-width: 0;
+  padding: ${({ theme }) => theme.spacing.medium};
 `;
 
 const ProfileImage = styled.img`
+  flex: 1 1 40%;
   width: 100%;
-  height: 100%;
+  min-width: 0;
+  height: 30rem;
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadiuses.xs};
   border: ${({ theme }) => theme.borderSize.m} solid
@@ -66,6 +49,7 @@ const ProfileImage = styled.img`
 `;
 
 const DescContainer = styled.div`
+  flex: 1 1 80%;
   max-width: 45vw;
   display: flex;
   flex-direction: column;
