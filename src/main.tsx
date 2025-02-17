@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import AppRouter from './router';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import GlobalStyle from './styles/GlobalStyles';
 
 const queryClient = new QueryClient();
@@ -15,7 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <Analytics />
-        <SpeedInsights />
         <GlobalStyle />
         <AppRouter />
       </ThemeProvider>
