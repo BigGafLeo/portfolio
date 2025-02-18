@@ -38,7 +38,7 @@ const TextOverlay = styled.div`
   color: ${({ theme }) => theme.palette.white};
   padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadiuses.xs};
-  font-size: ${({ theme }) => theme.fontSizes.medium};
+  font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: 600;
   text-transform: uppercase;
 `;

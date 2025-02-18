@@ -30,7 +30,7 @@ Pre-built Smart Contracts:
 
 This project aims to bridge the gap between Web3 and mainstream adoption, offering businesses a simple yet powerful way to leverage blockchain technology without technical expertise. 🚀
     `,
-    imageUrl: '/temp.jpg',
+    imageUrl: '/images/projects/web3.jpg',
     technologies: [
       'TypeScript',
       'Solidity',
@@ -49,7 +49,7 @@ This project aims to bridge the gap between Web3 and mainstream adoption, offeri
       'An advanced tool for testing investment strategies in a simulated environment and real-time market conditions.',
     nonTechnicalDescription:
       'This system allows testing investment strategies using historical data and real-time market analysis. It consists of two main components: an advanced testing environment and algorithmically controlled trading bots.',
-    imageUrl: '/temp.jpg',
+    imageUrl: '/images/projects/trading.jpg',
     technicalDescription: `
       The system consists of three main components:
 
@@ -111,7 +111,7 @@ The project also features a graphical user interface (GUI) for route visualizati
       'Tabu Search',
       'Branch and Bound',
     ],
-    imageUrl: 'temp.jpg',
+    imageUrl: '/images/projects/salesman.jpg',
   },
   {
     id: '4',
@@ -134,6 +134,6 @@ The project also features a graphical user interface (GUI) for route visualizati
       'Intermediate Representation',
       'Instruction Set Design',
     ],
-    imageUrl: '/temp.jpg',
+    imageUrl: '/images/projects/coding.jpg',
   },
 ];

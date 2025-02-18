@@ -83,7 +83,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-size: ${({ theme }) => theme.fontSizes.heading};
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;

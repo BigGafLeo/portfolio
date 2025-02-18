@@ -4,15 +4,15 @@ import { HobbyElement } from './HobbyElement';
 export const Hobbies = () => {
   // 🔹 Dane dotyczące hobby
   const geekHobbies = [
-    { icon: '/icons/blockchain.png', label: 'Blockchain' },
-    { icon: '/icons/trading.png', label: 'Trading' },
-    { icon: '/icons/games.png', label: 'Computer Games' },
+    { icon: '/images/hobbies/crypto.png', label: 'Etehrum' },
+    { icon: '/images/hobbies/trading.png', label: 'Trading' },
+    { icon: '/images/hobbies/gaming.jpg', label: 'Computer Games' },
   ];
 
   const normalHobbies = [
-    { icon: '/icons/sailing.png', label: 'Sailing' },
-    { icon: '/icons/squash.png', label: 'Squash' },
-    { icon: '/icons/piano.png', label: 'Piano' },
+    { icon: '/images/hobbies/sailing.png', label: 'Sailing' },
+    { icon: '/images/hobbies/squash.jpg', label: 'Squash' },
+    { icon: '/images/hobbies/piano.jpg', label: 'Piano' },
   ];
 
   return (
@@ -69,6 +69,7 @@ const ColumnContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: ${({ theme }) => theme.spacing.medium};
   flex: 1;
 `;
 
@@ -80,9 +81,9 @@ const HobbiesContainer = styled.div`
 
 // **📌 Stylizacja nagłówków**
 const Title = styled.h1`
-  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-size: ${({ theme }) => theme.fontSizes.heading};
 `;
 
 const Subtitle = styled.h2`
-  font-size: ${({ theme }) => theme.fontSizes.medium};
+  font-size: ${({ theme }) => theme.fontSizes.large};
 `;

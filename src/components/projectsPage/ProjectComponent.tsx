@@ -107,11 +107,12 @@ const Title = styled.h1`
 
 const ShortDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.medium};
+  font-weight: bold;
   color: ${({ theme }) => theme.palette.white}; /* White text on dark overlay */
 `;
 
 const NonTechnicalDescription = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.palette.white}; /* White text on dark overlay */
 `;
 
@@ -126,7 +127,7 @@ const TechSection = styled.div`
 `;
 
 const TechnicalDescription = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
   margin-bottom: ${({ theme }) => theme.spacing.small};
   white-space: pre-line; /* 🔹 Zapewnia formatowanie nowych linii */
 `;

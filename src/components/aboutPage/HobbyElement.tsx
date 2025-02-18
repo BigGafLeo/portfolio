@@ -22,8 +22,8 @@ const HobbyCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 120px;
-  height: 160px;
+  width: 140px;
+  height: 180px;
   border: solid 1px black;
   text-align: center;
   padding: ${({ theme }) => theme.spacing.small};
@@ -37,8 +37,8 @@ const HobbyCard = styled.div`
 
 // **📌 Kontener na ikonę**
 const IconContainer = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;

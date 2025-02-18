@@ -5,6 +5,7 @@ import { ServiceDetail } from '../components/homePage/ServiceDetailComponent';
 
 import { services } from '../data/servicesData';
 import { useRef } from 'react';
+import { CollaborationSteps } from '../components/homePage/CollaborationStepsComponent';
 
 export default function Home() {
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -13,6 +14,7 @@ export default function Home() {
     <StyledDiv>
       <AboutMeComponent />
       <WhatIDo serviceRefs={serviceRefs} />
+      <CollaborationSteps />
       {services.map((service, index) => (
         <ServiceDetailsContainer
           ref={(el) => (serviceRefs.current[index] = el)}
