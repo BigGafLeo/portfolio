@@ -54,26 +54,44 @@ export const CollaborationSteps = () => {
   );
 
   return (
-    <StepsContainer ref={stepsRef}>
-      <Counter>
-        <StepNumber>{currentStep}</StepNumber>
-        <NextStep>{currentStep < steps.length ? currentStep + 1 : ''}</NextStep>
-      </Counter>
+    <MainContainer ref={stepsRef}>
+      <Title>Steps of Our Collaboration</Title>
 
-      <StepContent $scrollDirection={scrollDirection} key={currentStep}>
-        <StepWrapper>
-          <StepIcon>{steps[currentStep - 1].icon}</StepIcon>
-          <StepTitle>{steps[currentStep - 1].title}</StepTitle>
-          <StepDescription>
-            {steps[currentStep - 1].description}
-          </StepDescription>
-        </StepWrapper>
-      </StepContent>
-    </StepsContainer>
+      <StepsContainer>
+        {/* 🔹 LICZNIK KROKÓW */}
+        <Counter>
+          {currentStep > 1 && (
+            <PreviousStep $scrollDirection={scrollDirection}>
+              {currentStep - 1}
+            </PreviousStep>
+          )}
+          <StepNumber $scrollDirection={scrollDirection} key={currentStep}>
+            {currentStep}
+          </StepNumber>
+          {currentStep < steps.length && (
+            <NextStep $scrollDirection={scrollDirection}>
+              {currentStep + 1}
+            </NextStep>
+          )}
+        </Counter>
+
+        {/* 🔹 KONTENT KROKU */}
+        <StepContent $scrollDirection={scrollDirection} key={currentStep}>
+          <StepWrapper>
+            <StepIcon>{steps[currentStep - 1].icon}</StepIcon>
+            <StepTitle>{steps[currentStep - 1].title}</StepTitle>
+            <StepDescription>
+              {steps[currentStep - 1].description}
+            </StepDescription>
+          </StepWrapper>
+        </StepContent>
+      </StepsContainer>
+    </MainContainer>
   );
 };
 
-// 🔹 **Animacje przewijania**
+// -------------------- ANIMACJE --------------------
+
 const slideUp = keyframes`
   from {
     opacity: 0;
@@ -96,15 +114,24 @@ const slideDown = keyframes`
   }
 `;
 
+// -------------------- STYLOWANIE --------------------
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.large};
+  align-items: center;
+  background: ${({ theme }) => theme.palette.casper};
+  color: ${({ theme }) => theme.palette.white};
+  height: 100vh;
+  justify-content: space-evenly;
+`;
+
 const StepsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: ${({ theme }) => theme.palette.bigstone || '#000'};
-  color: ${({ theme }) => theme.palette.white || '#fff'};
-  padding: 4rem;
-  gap: 4rem;
+  gap: ${({ theme }) => theme.spacing.large};
   position: relative;
 `;
 
@@ -119,16 +146,61 @@ const Counter = styled.div`
   width: 120px;
 `;
 
-const StepNumber = styled.div`
-  transition: opacity 0.5s ease-in-out;
+const Title = styled.h1`
+  font-size: ${({ theme }) => theme.fontSizes.heading};
+  font-weight: bold;
 `;
 
-const NextStep = styled.div`
+const StepNumber = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
+  transition: opacity 0.5s ease-in-out;
+  ${({ $scrollDirection }) =>
+    $scrollDirection === 'down'
+      ? css`
+          animation: ${slideUp} 0.4s ease-in-out;
+        `
+      : $scrollDirection === 'up'
+        ? css`
+            animation: ${slideDown} 0.4s ease-in-out;
+          `
+        : ''};
+`;
+
+const PreviousStep = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
+  font-size: 3rem;
+  opacity: 0.3;
+  position: absolute;
+  top: -50%;
+  transition: opacity 0.5s ease-in-out;
+
+  ${({ $scrollDirection }) =>
+    $scrollDirection === 'down'
+      ? css`
+          animation: ${slideUp} 0.4s ease-in-out;
+        `
+      : $scrollDirection === 'up'
+        ? css`
+            animation: ${slideDown} 0.4s ease-in-out;
+          `
+        : ''};
+`;
+
+const NextStep = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
   font-size: 3rem;
   opacity: 0.3;
   position: absolute;
   top: 120%;
   transition: opacity 0.5s ease-in-out;
+
+  ${({ $scrollDirection }) =>
+    $scrollDirection === 'down'
+      ? css`
+          animation: ${slideUp} 0.4s ease-in-out;
+        `
+      : $scrollDirection === 'up'
+        ? css`
+            animation: ${slideDown} 0.4s ease-in-out;
+          `
+        : ''};
 `;
 
 const StepContent = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
@@ -148,7 +220,7 @@ const StepContent = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
         ? css`
             animation: ${slideDown} 0.4s ease-in-out;
           `
-        : ''}
+        : ''};
 `;
 
 const StepWrapper = styled.div`

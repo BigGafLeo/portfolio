@@ -118,6 +118,7 @@ export const theme: DefaultTheme = {
     small: '14px',
     medium: '18px',
     large: '24px',
+    extraLarge: '64px',
     heading: '2.5em',
   },
   spacing: {

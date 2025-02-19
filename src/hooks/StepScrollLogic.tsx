@@ -2,14 +2,25 @@ import { useEffect, useState, useRef } from 'react';
 
 export const useStepScrollLogic = (stepsLength: number) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isCentered, setIsCentered] = useState(false);
   const [targetStep, setTargetStep] = useState(1);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(
     null,
   );
   const [isBlocked, setIsBlocked] = useState(false);
+
   const stepsRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef<number>(0);
+
+  const prevStepRef = useRef(currentStep);
+
+  useEffect(() => {
+    if (currentStep > prevStepRef.current) {
+      setScrollDirection('down');
+    } else if (currentStep < prevStepRef.current) {
+      setScrollDirection('up');
+    }
+    prevStepRef.current = currentStep;
+  }, [currentStep]);
 
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
@@ -24,36 +35,28 @@ export const useStepScrollLogic = (stepsLength: number) => {
 
       const componentCentered =
         Math.abs(sectionMiddle - windowHeight / 2) < 100;
-      setIsCentered(componentCentered);
 
-      if (!componentCentered) return; // 🔹 Blokujemy przewijanie, jeśli komponent nie jest wyśrodkowany
+      if (!componentCentered) return;
 
       const scrollY = window.scrollY;
-      const direction = scrollY > lastScrollY.current ? 'down' : 'up';
       lastScrollY.current = scrollY;
 
-      // 🔹 **Ustawiamy kierunek ZAWSZE, gdy przewijamy**
-      setScrollDirection(direction);
-
-      if (componentCentered) {
-        if (event.deltaY > 0 && targetStep < stepsLength) {
-          setTargetStep((prev) => prev + 1);
-          blockScroll();
-          event.preventDefault();
-        } else if (event.deltaY < 0 && targetStep > 1) {
-          setTargetStep((prev) => prev - 1);
-          blockScroll();
-          event.preventDefault();
-        }
+      if (event.deltaY > 0 && targetStep < stepsLength) {
+        setTargetStep((prev) => prev + 1);
+        blockScroll();
+        event.preventDefault();
+      } else if (event.deltaY < 0 && targetStep > 1) {
+        setTargetStep((prev) => prev - 1);
+        blockScroll();
+        event.preventDefault();
       }
     };
 
     window.addEventListener('wheel', handleScroll, { passive: false });
-
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [targetStep, isBlocked, isCentered]);
+  }, [targetStep, isBlocked, stepsLength]);
 
   useEffect(() => {
     if (currentStep !== targetStep) {
@@ -69,7 +72,7 @@ export const useStepScrollLogic = (stepsLength: number) => {
     setIsBlocked(true);
     setTimeout(() => {
       setIsBlocked(false);
-    }, 1000);
+    }, 500);
   };
 
   return { currentStep, stepsRef, scrollDirection };
