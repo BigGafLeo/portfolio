@@ -115,6 +115,7 @@ export const theme: DefaultTheme = {
     primary: "'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif",
   },
   fontSizes: {
+    tiny: '5px',
     small: '14px',
     medium: '18px',
     large: '24px',

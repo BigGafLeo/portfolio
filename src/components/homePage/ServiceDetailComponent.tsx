@@ -1,104 +1,94 @@
 import { styled } from 'styled-components';
 import { ServiceDetailProps } from '../../data/servicesData';
-import { MyButton } from '../general/StyledButton';
-import { useTheme } from 'styled-components';
+import { DetailColumn } from './DetailsColumsComponent';
+import { DetailsView } from './DetailsComponent';
+import { useEffect, useState } from 'react';
 
 export const ServiceDetail: React.FC<ServiceDetailProps> = ({
-  id,
   title,
   intro,
   description,
   benefits,
   examples,
-  imageUrl,
   ctaText,
 }) => {
-  const theme = useTheme();
-  return (
-    <MainContainer id={id}>
-      <Title>{title}</Title>
-      <ThemeContainer>
-        <LeftContainer>
-          <Intro>{intro}</Intro>
-          <Desc>{description}</Desc>
-          <PointsContainer>
-            <div>
-              <PointTitle>How it can help you:</PointTitle>
-              <PointList>
-                {benefits.map((benefit, index) => (
-                  <PointElement key={index}>{benefit}</PointElement>
-                ))}
-              </PointList>
-            </div>
+  const [selectedDetail, setSelectedDetail] = useState<string>(description);
 
-            <div>
-              <PointTitle>Best aplication for your business:</PointTitle>
-              <PointList>
-                {examples.map((example, index) => (
-                  <PointElement key={index}>{example}</PointElement>
-                ))}
-              </PointList>
-            </div>
-          </PointsContainer>
-        </LeftContainer>
-        <RightContainer>
-          <ImageSection>
-            <ServiceImage src={imageUrl} alt="Test" />
-          </ImageSection>
-          <MyButton
-            variant="danger"
-            style={{ width: 'auto', marginTop: theme.spacing.small }}
-          >
-            {ctaText}
-          </MyButton>
-        </RightContainer>
-      </ThemeContainer>
+  useEffect(() => {
+    setSelectedDetail(description);
+  }, [description]);
+
+  return (
+    <MainContainer>
+      <Title>{title}</Title>
+      <Intro>{intro}</Intro>
+      <DetailsContainer>
+        {/* 🔹 Pionowa etykieta "Benefits" */}
+        <LabelWrapper>
+          <VerticalLabel>{'B\nE\nN\nE\nF\nI\nT\nS'}</VerticalLabel>
+        </LabelWrapper>
+
+        <DetailColumn
+          items={benefits.map((item) => ({
+            ...item,
+            onClick: () => setSelectedDetail(item.description),
+          }))}
+        />
+        <DetailsView info={selectedDetail} ctaText={ctaText} />
+        <DetailColumn
+          items={examples.map((item) => ({
+            ...item,
+            onClick: () => setSelectedDetail(item.description),
+          }))}
+        />
+
+        {/* 🔹 Pionowa etykieta "Examples" */}
+        <LabelWrapper>
+          <VerticalLabel>{'E\nX\nA\nM\nP\nL\nE\nS'}</VerticalLabel>
+        </LabelWrapper>
+      </DetailsContainer>
     </MainContainer>
   );
 };
 
-const MainContainer = styled.div<{ id: number }>`
-  background-color: ${({ theme, id }) =>
-    id % 2 === 0 ? theme.palette.casper : theme.palette.mystic};
+// -------------------- STYLOWANIE --------------------
+
+const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.large};
   align-items: center;
-  padding-left: ${({ theme }) => theme.spacing.large};
-  padding-right: ${({ theme }) => theme.spacing.large};
-  padding-top: ${({ theme }) => theme.spacing.extraLarge};
-  padding-bottom: ${({ theme }) => theme.spacing.extraLarge};
-  gap: ${({ theme }) => theme.spacing.large};
+  background-color: ${({ theme }) => theme.palette.casper};
+  height: 75vh;
+  padding: ${({ theme }) => theme.spacing.large};
+  width: 100%;
 `;
 
-const ThemeContainer = styled.div`
+const DetailsContainer = styled.div`
+  height: 45vh;
   display: flex;
-  justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.large};
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  flex-basis: 70%;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.medium};
-`;
-
-const PointsContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
-
-const RightContainer = styled.div`
-  flex-basis: 30%;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: ${({ theme }) => theme.spacing.small};
+  width: 100%;
 `;
 
-const ImageSection = styled.div`
+const LabelWrapper = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
+  width: 50px; /* 🔹 Rezerwujemy miejsce na etykietę */
+`;
+
+// 🔹 **Stylizacja pionowych etykiet**
+const VerticalLabel = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  white-space: pre-line; /* 🔹 Teraz każda litera jest w nowej linii */
+  text-align: center;
+  line-height: 1.2;
 `;
 
 const Title = styled.h1`
@@ -109,25 +99,4 @@ const Title = styled.h1`
 const Intro = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: bold;
-`;
-const Desc = styled.h2`
-  font-size: ${({ theme }) => theme.fontSizes.medium};
-  font-weight: normal;
-`;
-
-const PointTitle = styled.h2`
-  font-size: ${({ theme }) => theme.fontSizes.medium};
-  font-weight: bold;
-`;
-
-const PointList = styled.ul``;
-
-const PointElement = styled.li`
-  margin-bottom: ${({ theme }) => theme.spacing.small};
-`;
-
-const ServiceImage = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: cover;
 `;

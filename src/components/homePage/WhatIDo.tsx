@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
 interface WhatIDoProps {
-  serviceRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
+  serviceRef: React.MutableRefObject<HTMLDivElement | null>; // 🟢 Tylko jedna referencja
+  action: (index: number) => void;
 }
 
-export const WhatIDo: React.FC<WhatIDoProps> = ({ serviceRefs }) => {
-  const scrollToService = (index: number) => {
-    serviceRefs.current[index]?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-    });
+export const WhatIDo: React.FC<WhatIDoProps> = ({ serviceRef, action }) => {
+  const setDetailsAndScroll = (index: number) => {
+    action(index);
+    if (serviceRef.current) {
+      serviceRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
   };
 
   return (
@@ -17,10 +21,10 @@ export const WhatIDo: React.FC<WhatIDoProps> = ({ serviceRefs }) => {
       <Title>What I can help You with:</Title>
       <Container>
         <Grid>
-          <Tile onClick={() => scrollToService(0)}>Websites</Tile>
-          <Tile onClick={() => scrollToService(1)}>Automatization</Tile>
-          <Tile onClick={() => scrollToService(2)}>AI Implementation</Tile>
-          <Tile onClick={() => scrollToService(3)}>Web3 & Blockchain</Tile>
+          <Tile onClick={() => setDetailsAndScroll(0)}>Websites</Tile>
+          <Tile onClick={() => setDetailsAndScroll(1)}>Automatization</Tile>
+          <Tile onClick={() => setDetailsAndScroll(2)}>AI Implementation</Tile>
+          <Tile onClick={() => setDetailsAndScroll(3)}>Web3 & Blockchain</Tile>
         </Grid>
       </Container>
     </MainContainer>

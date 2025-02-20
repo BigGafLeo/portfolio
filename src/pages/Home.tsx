@@ -2,27 +2,26 @@ import styled from 'styled-components';
 import { AboutMeComponent } from '../components/homePage/HelloComponent';
 import { WhatIDo } from '../components/homePage/WhatIDo';
 import { ServiceDetail } from '../components/homePage/ServiceDetailComponent';
-
 import { services } from '../data/servicesData';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { CollaborationSteps } from '../components/homePage/CollaborationStepsComponent';
 
 export default function Home() {
-  const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const serviceRef = useRef<HTMLDivElement | null>(null); // 🟢 Jeden ref dla jednego komponentu
+  const [serviceDetailIndex, setServiceDetailIndex] = useState(0);
 
   return (
     <StyledDiv>
       <AboutMeComponent />
-      <WhatIDo serviceRefs={serviceRefs} />
+      <WhatIDo serviceRef={serviceRef} action={setServiceDetailIndex} />
+
+      {/* 🟢 Ref dla ServiceDetail */}
+      <ServiceDetailsContainer ref={serviceRef}>
+        {}
+        <ServiceDetail {...services[serviceDetailIndex]} />
+      </ServiceDetailsContainer>
+
       <CollaborationSteps />
-      {services.map((service, index) => (
-        <ServiceDetailsContainer
-          ref={(el) => (serviceRefs.current[index] = el)}
-          key={service.id}
-        >
-          <ServiceDetail {...service} />
-        </ServiceDetailsContainer>
-      ))}
     </StyledDiv>
   );
 }
