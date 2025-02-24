@@ -1,7 +1,8 @@
 import { Chrono } from 'react-chrono';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 export const CareerTimeline = () => {
+  const themeContext = useTheme();
   const items = [
     {
       title: '2018-2022',
@@ -58,12 +59,12 @@ export const CareerTimeline = () => {
         useReadMore={false}
         disableToolbar={true}
         theme={{
-          primary: '#2F64B6',
-          secondary: '#D0D6E6',
-          cardBgColor: '#F8F9FB',
-          titleColor: '#0B0E14',
-          cardTitleColor: '#2B7858',
-          cardSubtitleColor: '#515A6C',
+          primary: themeContext.colors.border.main,
+          secondary: themeContext.palette.indigoLight15,
+          cardBgColor: themeContext.palette.athens,
+          titleColor: themeContext.palette.bigstone,
+          cardTitleColor: themeContext.palette.indigoLight,
+          cardSubtitleColor: themeContext.palette.mint,
         }}
         cardHeight={180}
         slideShow

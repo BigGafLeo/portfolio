@@ -42,7 +42,7 @@ const ViewContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadiuses.l};
   border:
     solid ${({ theme }) => theme.borderSize.xl},
-    ${({ theme }) => theme.colors.border.serviceDetail};
+    ${({ theme }) => theme.colors.border.main};
 `;
 
 const DetailContainer = styled.div`

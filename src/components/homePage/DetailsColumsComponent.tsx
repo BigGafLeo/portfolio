@@ -30,7 +30,7 @@ const ColumnContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadiuses.l};
   border:
     solid ${({ theme }) => theme.borderSize.xl},
-    ${({ theme }) => theme.colors.border.serviceDetail};
+    ${({ theme }) => theme.colors.border.main};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,10 +45,9 @@ const ColumnContainer = styled.div`
 `;
 
 const ImgContainer = styled.button`
-  width: 50px;
-  height: 50px;
-  min-height: 50px;
-  min-width: 50px;
+  width: 60px;
+  height: 60px;
+
   border:
     solid ${({ theme }) => theme.borderSize.m},
     ${({ theme }) => theme.palette.bigstone};

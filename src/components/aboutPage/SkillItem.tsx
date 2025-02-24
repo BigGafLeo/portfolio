@@ -51,7 +51,7 @@ const IconContainer = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: show;
   display: flex;
   align-items: center;
   justify-content: center;

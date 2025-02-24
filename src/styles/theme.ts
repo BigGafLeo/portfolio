@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import { DefaultTheme } from 'styled-components';
 
 export const palette = {
@@ -54,6 +55,8 @@ export const palette = {
   corageBlue: '#4F67C0',
   indigoLight: '#637BD5',
 
+  indigoLight15: rgba('#637BD5', 0.15),
+
   gradient: 'linear-gradient(90deg, #7040BF 0%, #0B62F4 50.48%, #5BA487 100%)',
   peachAndSky1: 'linear-gradient(to right, #FFDAB9, #87CEEB)',
   peachAndSky2: 'linear-gradient(45deg, #FFE5B4, #AFCBE5)',
@@ -102,7 +105,7 @@ export const theme: DefaultTheme = {
       error: palette.tomato,
     },
     border: {
-      serviceDetail: palette.indigoLight,
+      main: palette.indigoLight,
     },
   },
   breakpoints: {
