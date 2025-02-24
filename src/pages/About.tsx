@@ -27,18 +27,17 @@ export default function About() {
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: ${({ theme }) => theme.spacing.medium} auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing.medium};
-  gap: ${({ theme }) => theme.spacing.large};
+  /* padding: ${({ theme }) => theme.spacing.medium}; */
+  gap: ${({ theme }) => theme.spacing.tenHeight};
 `;
 
 // 📌 **Kontener dla przycisku pobierania CV**
 const DownloadCVContainer = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.large};
   display: flex;
   justify-content: center;
   width: 100%;

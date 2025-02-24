@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { rgba } from 'polished';
 
 export const TechStack = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +85,8 @@ const Container = styled.div`
   width: 100%;
   max-width: inherit;
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.palette.white};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.15)};
   border-radius: ${({ theme }) => theme.borderRadiuses.m};
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -93,18 +95,21 @@ const Container = styled.div`
 // **Nagłówek - klikany do rozwijania**
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.large};
   align-items: center;
   padding: ${({ theme }) => theme.spacing.medium};
   font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: bold;
   cursor: pointer;
   user-select: none;
-  background-color: ${({ theme }) => theme.palette.delft};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.6)};
   transition: background 0.3s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.darkDelft};
+    background-color: ${({ theme }) =>
+      rgba(theme.colors.background.element1, 1)};
   }
 `;
 
@@ -153,9 +158,11 @@ const Items = styled.div`
 
 // **Pojedynczy element technologii**
 const TechItem = styled.span`
-  background-color: ${({ theme }) => theme.palette.mystic};
+  color: ${({ theme }) => theme.colors.text.default};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.6)};
   padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   font-size: ${({ theme }) => theme.fontSizes.small};
-  font-weight: 500;
+  font-weight: 800;
 `;

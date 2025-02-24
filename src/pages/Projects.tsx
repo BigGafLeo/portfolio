@@ -17,6 +17,7 @@ export const Projects: React.FC = () => {
 const ProjectsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.extraLarge};
+  gap: ${({ theme }) => theme.spacing.tenHeight};
+
   align-items: center;
 `;

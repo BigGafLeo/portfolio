@@ -122,6 +122,7 @@ const Title = styled.h2`
   font-weight: 700;
   margin-bottom: ${({ theme }) => theme.spacing.large};
   text-align: center;
+  margin-bottom: 5vh;
 `;
 
 const SkillsWrapper = styled.div`

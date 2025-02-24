@@ -77,8 +77,7 @@ export const CareerTimeline = () => {
 const Container = styled.div`
   width: 100%;
   max-width: inherit;
-  margin: 100px auto;
-  padding: 20px;
+  margin: 0 auto;
   overflow-x: hidden;
 `;
 
@@ -86,7 +85,7 @@ const Title = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.heading};
   font-weight: 700;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 5vh;
   color: ${({ theme }) => theme.colors.text.default};
 `;
 

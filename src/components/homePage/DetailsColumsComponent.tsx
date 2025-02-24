@@ -24,6 +24,8 @@ export const DetailColumn: React.FC<ColumnProps> = ({ items }) => {
 
 // Kontener kolumny
 const ColumnContainer = styled.div`
+  overflow: hidden;
+
   height: 90%;
   border-radius: ${({ theme }) => theme.borderRadiuses.l};
   border:

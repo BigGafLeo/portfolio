@@ -6,12 +6,6 @@ import { ErrorPage } from './pages/Error';
 import { Contact } from './pages/Contact';
 import { Projects } from './pages/Projects';
 
-// const router = createBrowserRouter([
-//   { path: '/', element: <Home /> },
-//   { path: '/about', element: <About /> },
-//   { path: '*', element: <NotFound /> },
-// ]);
-
 const router = createBrowserRouter([
   {
     path: '/',

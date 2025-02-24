@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import styled from 'styled-components';
 
 interface SkillItemProps {
@@ -30,14 +31,20 @@ export const SkillItem = ({
 const SkillCard = styled.li`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.palette.white};
-  border-radius: ${({ theme }) => theme.borderRadiuses.l};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element2, 0.6)};
+  border-radius: ${({ theme }) => theme.borderRadiuses.pill};
   padding: ${({ theme }) => theme.spacing.medium};
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.shadows.l};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
   transition: transform 0.2s ease-in-out;
   min-height: 100px;
   justify-content: space-between;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: ${({ theme }) => theme.shadows.xl};
+  }
 `;
 
 const IconContainer = styled.div`
@@ -77,7 +84,7 @@ const SkillTitle = styled.h4`
 
 const SkillDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.small};
-  color: ${({ theme }) => theme.colors.text.light};
+  color: ${({ theme }) => theme.colors.text.lower};
   margin: 0;
   flex-grow: 1;
   display: flex;
@@ -90,7 +97,7 @@ const SkillDescription = styled.p`
 
 const SkillDate = styled.span<{ hasDate: boolean }>`
   font-size: ${({ theme }) => theme.fontSizes.small};
-  color: ${({ theme }) => theme.colors.text.light};
+  color: ${({ theme }) => theme.colors.text.lower};
   white-space: nowrap;
   flex-shrink: 0;
   min-width: 80px;

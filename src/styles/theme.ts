@@ -85,6 +85,7 @@ export const theme: DefaultTheme = {
     text: {
       default: palette.bigstone,
       light: palette.athens,
+      lower: palette.comet,
       green: palette.fernGreen,
       red: palette.chilly,
       orange: palette.bamboo,
@@ -153,5 +154,6 @@ export const theme: DefaultTheme = {
     large: '24px',
     extraLarge: '62px',
     tenHeight: '15vh',
+    tenFourtht: '30vh',
   },
 } as const;

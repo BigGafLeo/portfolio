@@ -4,6 +4,7 @@ import { DetailColumn } from './DetailsColumsComponent';
 import { DetailsView } from './DetailsComponent';
 import { useEffect, useState } from 'react';
 import { rgba } from 'polished';
+import { Bubble } from '../general/Bubble';
 
 export const ServiceDetail: React.FC<ServiceDetailProps> = ({
   title,
@@ -14,40 +15,84 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({
   ctaText,
 }) => {
   const [selectedDetail, setSelectedDetail] = useState<string>(description);
+  const [showBubble, setShowBubble] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     setSelectedDetail(description);
   }, [description]);
 
+  useEffect(() => {
+    // Po 9.5 sekundy (zanim minie 10s) uruchamiamy animację zanikania
+    const fadeTimer = setTimeout(() => {
+      setFadeOut(true);
+    }, 9500);
+
+    // Po 10s całkiem usuwamy z DOM
+    const removeTimer = setTimeout(() => {
+      setShowBubble(false);
+    }, 10000);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
+  }, []);
+
   return (
     <MainContainer>
       <Title>{title}</Title>
       <Intro>{intro}</Intro>
-      <DetailsContainer>
-        {/* 🔹 Pionowa etykieta "Benefits" */}
-        <LabelWrapper>
-          <VerticalLabel>{'B\nE\nN\nE\nF\nI\nT\nS'}</VerticalLabel>
-        </LabelWrapper>
 
-        <DetailColumn
-          items={benefits.map((item) => ({
-            ...item,
-            onClick: () => setSelectedDetail(item.description),
-          }))}
-        />
-        <DetailsView info={selectedDetail} ctaText={ctaText} />
-        <DetailColumn
-          items={examples.map((item) => ({
-            ...item,
-            onClick: () => setSelectedDetail(item.description),
-          }))}
-        />
+      <DetailWrapper>
+        <DetailsContainer>
+          <LeftBubbleWrapper>
+            <Bubble
+              text={
+                showBubble
+                  ? 'Discover an amazing use – it might change your life!'
+                  : undefined
+              }
+              fadeOut={fadeOut}
+              startingState={true}
+            />
+          </LeftBubbleWrapper>
+          <LabelWrapper>
+            <VerticalLabel>{'B\nE\nN\nE\nF\nI\nT\nS'}</VerticalLabel>
+          </LabelWrapper>
 
-        {/* 🔹 Pionowa etykieta "Examples" */}
-        <LabelWrapper>
-          <VerticalLabel>{'E\nX\nA\nM\nP\nL\nE\nS'}</VerticalLabel>
-        </LabelWrapper>
-      </DetailsContainer>
+          <DetailColumn
+            items={benefits.map((item) => ({
+              ...item,
+              onClick: () => setSelectedDetail(item.description),
+            }))}
+          />
+
+          <DetailsView info={selectedDetail} ctaText={ctaText} />
+
+          {/* <RightBubbleWrapper>
+            <Bubble
+              text={
+                showBubble
+                  ? 'Discover an amazing use – it might change your life!'
+                  : undefined
+              }
+              fadeOut={fadeOut}
+              startingState={true}
+            />
+          </RightBubbleWrapper> */}
+
+          <DetailColumn
+            items={examples.map((item) => ({
+              ...item,
+              onClick: () => setSelectedDetail(item.description),
+            }))}
+          />
+          <LabelWrapper>
+            <VerticalLabel>{'E\nX\nA\nM\nP\nL\nE\nS'}</VerticalLabel>
+          </LabelWrapper>
+        </DetailsContainer>
+      </DetailWrapper>
     </MainContainer>
   );
 };
@@ -66,7 +111,13 @@ const MainContainer = styled.div`
   width: 100%;
 `;
 
+const DetailWrapper = styled.div`
+  position: relative;
+  margin-top: 75px;
+`;
+
 const DetailsContainer = styled.div`
+  position: relative;
   height: 45vh;
   display: flex;
   justify-content: center;
@@ -75,11 +126,25 @@ const DetailsContainer = styled.div`
   width: 100%;
 `;
 
+const LeftBubbleWrapper = styled.div`
+  position: absolute;
+  left: -8%;
+  top: 0;
+  z-index: 999;
+`;
+
+const RightBubbleWrapper = styled.div`
+  position: absolute;
+  left: 80%;
+  top: 0;
+  z-index: 999;
+`;
+
 const LabelWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px; /* 🔹 Rezerwujemy miejsce na etykietę */
+  width: 25px;
 `;
 
 // 🔹 **Stylizacja pionowych etykiet**

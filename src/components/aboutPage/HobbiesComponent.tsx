@@ -52,7 +52,6 @@ const MainContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.medium};
   justify-content: center;
   align-items: center;
-  padding: ${({ theme }) => theme.spacing.large};
 `;
 
 // **📌 Kontener na kategorie hobby**

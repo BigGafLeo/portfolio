@@ -31,6 +31,7 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  min-height: 50vh;
   background-color: ${({ theme }) =>
     rgba(theme.colors.background.element1, 0.15)};
   color: ${({ theme }) => theme.colors.text.default};

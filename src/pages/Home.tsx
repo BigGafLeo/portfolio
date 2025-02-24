@@ -17,7 +17,6 @@ export default function Home() {
 
       {/* 🟢 Ref dla ServiceDetail */}
       <ServiceDetailsContainer ref={serviceRef}>
-        {}
         <ServiceDetail {...services[serviceDetailIndex]} />
       </ServiceDetailsContainer>
 
