@@ -28,7 +28,7 @@ const ColumnContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadiuses.l};
   border:
     solid ${({ theme }) => theme.borderSize.xl},
-    ${({ theme }) => theme.palette.bigstone};
+    ${({ theme }) => theme.colors.border.serviceDetail};
   display: flex;
   flex-direction: column;
   align-items: center;

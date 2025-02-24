@@ -3,6 +3,7 @@ import { ServiceDetailProps } from '../../data/servicesData';
 import { DetailColumn } from './DetailsColumsComponent';
 import { DetailsView } from './DetailsComponent';
 import { useEffect, useState } from 'react';
+import { rgba } from 'polished';
 
 export const ServiceDetail: React.FC<ServiceDetailProps> = ({
   title,
@@ -58,7 +59,8 @@ const MainContainer = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.large};
   align-items: center;
-  background-color: ${({ theme }) => theme.palette.casper};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.15)};
   height: 75vh;
   padding: ${({ theme }) => theme.spacing.large};
   width: 100%;
@@ -83,10 +85,11 @@ const LabelWrapper = styled.div`
 // 🔹 **Stylizacja pionowych etykiet**
 const VerticalLabel = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.large};
+  color: ${({ theme }) => theme.palette.tuna};
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  white-space: pre-line; /* 🔹 Teraz każda litera jest w nowej linii */
+  white-space: pre-line;
   text-align: center;
   line-height: 1.2;
 `;

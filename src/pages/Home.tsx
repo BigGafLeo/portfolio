@@ -30,9 +30,9 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.extraLarge};
+  gap: ${({ theme }) => theme.spacing.tenHeight};
 `;
 
 const ServiceDetailsContainer = styled.div`
-  margin: ${({ theme }) => theme.spacing.tenHeight} 0;
+  /* margin: ${({ theme }) => theme.spacing.tenHeight} 0; */
 `;

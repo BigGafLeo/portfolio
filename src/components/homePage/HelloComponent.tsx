@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MyButton } from '../general/StyledButton';
+import { rgba } from 'polished';
 
 export const AboutMeComponent = () => {
   return (
@@ -30,7 +31,8 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: ${({ theme }) => theme.palette.mystic};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.15)};
   color: ${({ theme }) => theme.colors.text.default};
   gap: ${({ theme }) => theme.spacing.small};
   min-width: 0;

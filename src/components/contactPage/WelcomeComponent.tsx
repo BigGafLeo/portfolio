@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +15,11 @@ export const WelcomeComponent: React.FC = () => {
 };
 
 const Container = styled.div`
-  border: solid 5px;
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.15)};
+  border:
+    solid ${({ theme }) => theme.borderSize.m},
+    ${({ theme }) => theme.palette.bigstone};
   width: 100%;
   max-width: inherit;
   display: flex;

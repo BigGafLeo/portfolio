@@ -70,7 +70,7 @@ export const Project: React.FC<ProjectProps> = ({ project }) => {
 const ProjectContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 66vh;
+  height: 75vh;
   max-width: inherit;
   border-radius: ${({ theme }) => theme.borderRadiuses.xxl};
   overflow: hidden;
@@ -122,8 +122,18 @@ const TechSection = styled.div`
   padding: ${({ theme }) => theme.spacing.large};
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   gap: ${({ theme }) => theme.spacing.medium};
+  padding: ${({ theme }) => theme.spacing.medium};
+
+  overflow-y: auto;
+
+  /* 🔹 Ukrycie paska przewijania */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE i Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
 `;
 
 const TechnicalDescription = styled.p`
@@ -142,7 +152,8 @@ const TechList = styled.ul`
 `;
 
 const TechItem = styled.li`
-  background: ${({ theme }) => theme.palette.secretGarden};
+  color: ${({ theme }) => theme.colors.text.light};
+  background: ${({ theme }) => theme.colors.background.element3};
   padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   font-size: ${({ theme }) => theme.fontSizes.small};

@@ -16,7 +16,8 @@ const GlobalStyle = createGlobalStyle`
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: ${({ theme }) => theme.colors.background.base};
+    background: ${({ theme }) => theme.palette.peachSky8};
     color: ${({ theme }) => theme.colors.text.default};
     min-height: 100vh;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -56,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button:hover {
-    background-color: ${({ theme }) => theme.palette.wisteria};
+    /* background-color: ${({ theme }) => theme.palette.wisteria}; */
     box-shadow: ${({ theme }) => theme.shadows.m};
   }
 

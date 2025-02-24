@@ -55,14 +55,36 @@ export const palette = {
   indigoLight: '#637BD5',
 
   gradient: 'linear-gradient(90deg, #7040BF 0%, #0B62F4 50.48%, #5BA487 100%)',
+  peachAndSky1: 'linear-gradient(to right, #FFDAB9, #87CEEB)',
+  peachAndSky2: 'linear-gradient(45deg, #FFE5B4, #AFCBE5)',
+  peachAndSky3:
+    'linear-gradient(135deg, #FAD9C3 0%, #FFDAB9 40%, #B0E0E6 100%)',
+  peachAndSky4: 'radial-gradient(circle at center, #FFE5B4 0%, #87CEFA 100%)',
+  peachAndSky5: 'linear-gradient(to bottom, #F5CAB3, #CDE1FF)',
+  peachSky1: 'linear-gradient(to right, #ffe0cc, #b3ddf2)',
+  peachSky2: 'linear-gradient(120deg, #fcd5ce 0%, #bee3f8 100%)',
+  peachSky3: 'radial-gradient(circle at bottom left, #fee9df, #abd3e8)',
+  peachSky4: 'linear-gradient(to top, #ffd2b3, #a8dff0)',
+  peachSky5: 'linear-gradient(90deg, #ffcb9a 30%, #aecff3 70%)',
+  peachSky6: 'linear-gradient(135deg, #ffe2c4 0%, #cfe7fa 100%)',
+  peachSky7: 'linear-gradient(180deg, #fcdad0 0%, #b0e7f5 100%)',
+  peachSky8: 'linear-gradient(to right, #fef1e2, #c2e4f5)',
+  peachSky9: 'radial-gradient(circle at top, #fad4b2, #8ecdea)',
+  peachSky10: 'conic-gradient(from 180deg at 50% 50%, #ffceb9, #9ecff0)',
 };
 
 export const theme: DefaultTheme = {
   colors: {
-    background: palette.porcelain,
+    background: {
+      base: palette.porcelain,
+      element1: palette.indigoLight,
+      element2: palette.porcelain,
+      element3: palette.indigoLight,
+      header: palette.dove,
+    },
     text: {
       default: palette.bigstone,
-      light: palette.comet,
+      light: palette.athens,
       green: palette.fernGreen,
       red: palette.chilly,
       orange: palette.bamboo,
@@ -77,6 +99,9 @@ export const theme: DefaultTheme = {
       backgroundDisabled: palette.white,
       borderDisabled: palette.porcelain,
       error: palette.tomato,
+    },
+    border: {
+      serviceDetail: palette.indigoLight,
     },
   },
   breakpoints: {

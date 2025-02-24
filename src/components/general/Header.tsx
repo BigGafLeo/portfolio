@@ -30,7 +30,7 @@ const MainDiv = styled.div`
   align-items: center;
   width: 100%;
   height: 60px;
-  background-color: ${({ theme }) => theme.palette.white};
+  background-color: ${({ theme }) => theme.colors.background.header};
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;

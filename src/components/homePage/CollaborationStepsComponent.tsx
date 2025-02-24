@@ -8,6 +8,7 @@ import {
   FaRocket,
 } from 'react-icons/fa';
 import { useStepScrollLogic } from '../../hooks/StepScrollLogic';
+import { rgba } from 'polished';
 
 const steps = [
   {
@@ -121,8 +122,9 @@ const MainContainer = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.large};
   align-items: center;
-  background: ${({ theme }) => theme.palette.casper};
-  color: ${({ theme }) => theme.palette.white};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.15)};
+  color: ${({ theme }) => theme.palette.bigstone};
   height: 100vh;
   justify-content: space-evenly;
 `;
@@ -167,7 +169,8 @@ const StepNumber = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
 
 const PreviousStep = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
   font-size: 3rem;
-  opacity: 0.3;
+  /* opacity: 0.3; */
+  color: ${({ theme }) => theme.palette.waterloo};
   position: absolute;
   top: -50%;
   transition: opacity 0.5s ease-in-out;
@@ -186,7 +189,8 @@ const PreviousStep = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
 
 const NextStep = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`
   font-size: 3rem;
-  opacity: 0.3;
+  /* opacity: 0.3; */
+  color: ${({ theme }) => theme.palette.waterloo};
   position: absolute;
   top: 120%;
   transition: opacity 0.5s ease-in-out;
@@ -231,7 +235,7 @@ const StepWrapper = styled.div`
 
 const StepIcon = styled.div`
   font-size: 3rem;
-  color: ${({ theme }) => theme.palette.white || '#fff'};
+  color: ${({ theme }) => theme.palette.mirage};
 `;
 
 const StepTitle = styled.h2`
