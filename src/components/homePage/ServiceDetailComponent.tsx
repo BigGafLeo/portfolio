@@ -133,12 +133,12 @@ const LeftBubbleWrapper = styled.div`
   z-index: 999;
 `;
 
-const RightBubbleWrapper = styled.div`
-  position: absolute;
-  left: 80%;
-  top: 0;
-  z-index: 999;
-`;
+// const RightBubbleWrapper = styled.div`
+//   position: absolute;
+//   left: 80%;
+//   top: 0;
+//   z-index: 999;
+// `;
 
 const LabelWrapper = styled.div`
   display: flex;
