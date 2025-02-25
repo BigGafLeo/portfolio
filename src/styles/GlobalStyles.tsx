@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: ${({ theme }) => theme.colors.background.base};
-    background: ${({ theme }) => theme.palette.peachSky2};
+    background: ${({ theme }) => theme.palette.peachSky6};
     color: ${({ theme }) => theme.colors.text.default};
     min-height: 100vh;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;

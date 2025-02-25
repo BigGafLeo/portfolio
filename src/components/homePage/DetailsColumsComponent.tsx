@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import styled from 'styled-components';
 
 interface TileData {
@@ -25,6 +26,8 @@ export const DetailColumn: React.FC<ColumnProps> = ({ items }) => {
 // Kontener kolumny
 const ColumnContainer = styled.div`
   overflow: hidden;
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element2, 0.5)};
 
   height: 90%;
   border-radius: ${({ theme }) => theme.borderRadiuses.l};
@@ -53,7 +56,7 @@ const ImgContainer = styled.button`
     ${({ theme }) => theme.palette.bigstone};
   border-radius: ${({ theme }) => theme.borderRadiuses.round};
   margin: ${({ theme }) => theme.spacing.small};
-  background: none;
+  background: ${({ theme }) => theme.palette.athens};
   cursor: pointer;
   padding: 0;
   display: flex;

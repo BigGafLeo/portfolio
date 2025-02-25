@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import styled from 'styled-components';
 
 interface WhatIDoProps {
@@ -58,7 +59,8 @@ const Grid = styled.div`
 const Title = styled.h1``;
 
 const Tile = styled.button`
-  background-color: ${({ theme }) => theme.palette.mintblue};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element1, 0.5)};
   color: ${({ theme }) => theme.palette.bigstone};
   font-size: ${({ theme }) => theme.fontSizes.large};
   padding: ${({ theme }) => theme.spacing.extraLarge};
@@ -75,7 +77,8 @@ const Tile = styled.button`
   height: 100%;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.fernGreen};
+    background-color: ${({ theme }) =>
+      rgba(theme.colors.background.element2, 0.5)};
     transform: scale(1.05);
   }
 `;

@@ -11,14 +11,12 @@ export const MainNav = () => {
   );
 };
 
-// **Menu nawigacyjne**
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.medium};
 `;
 
-// **Elementy menu**
 const NavItem = styled.a`
   font-size: ${({ theme }) => theme.fontSizes.large};
   white-space: nowrap;

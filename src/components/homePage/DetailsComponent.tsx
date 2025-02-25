@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { MyButton } from '../general/StyledButton';
 import { useModal } from '../../context/ModalContext';
+import { rgba } from 'polished';
 
 interface ViewData {
   info: string;
@@ -43,12 +44,14 @@ const ViewContainer = styled.div`
   border:
     solid ${({ theme }) => theme.borderSize.xl},
     ${({ theme }) => theme.colors.border.main};
+  background-color: ${({ theme }) =>
+    rgba(theme.colors.background.element2, 0.5)};
 `;
 
 const DetailContainer = styled.div`
   margin: ${({ theme }) => theme.spacing.large};
   padding: ${({ theme }) => theme.spacing.large};
-  background: ${({ theme }) => theme.palette.lightTimide};
+  background: ${({ theme }) => theme.palette.athens};
   border-radius: ${({ theme }) => theme.borderRadiuses.xxl};
   overflow: hidden;
   width: 90%;
