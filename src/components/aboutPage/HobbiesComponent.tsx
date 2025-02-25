@@ -75,7 +75,7 @@ const ColumnContainer = styled.div`
 // **📌 Kontener na listę hobby**
 const HobbiesContainer = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.small};
+  gap: ${({ theme }) => theme.spacing.medium};
 `;
 
 // **📌 Stylizacja nagłówków**

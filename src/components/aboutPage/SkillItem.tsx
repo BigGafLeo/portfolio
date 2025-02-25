@@ -1,4 +1,3 @@
-import { rgba } from 'polished';
 import styled from 'styled-components';
 
 interface SkillItemProps {
@@ -31,8 +30,7 @@ export const SkillItem = ({
 const SkillCard = styled.li`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) =>
-    rgba(theme.colors.background.element2, 0.6)};
+  background-color: ${({ theme }) => theme.colors.background.element4};
   border-radius: ${({ theme }) => theme.borderRadiuses.pill};
   padding: ${({ theme }) => theme.spacing.medium};
   box-shadow: ${({ theme }) => theme.shadows.l};

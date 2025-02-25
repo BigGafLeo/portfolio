@@ -85,8 +85,7 @@ const Container = styled.div`
   width: 100%;
   max-width: inherit;
   margin: 0 auto;
-  background-color: ${({ theme }) =>
-    rgba(theme.colors.background.element1, 0.15)};
+  background-color: ${({ theme }) => theme.colors.background.element4};
   border-radius: ${({ theme }) => theme.borderRadiuses.m};
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -108,8 +107,7 @@ const Header = styled.div`
   transition: background 0.3s;
 
   &:hover {
-    background-color: ${({ theme }) =>
-      rgba(theme.colors.background.element1, 1)};
+    background-color: ${({ theme }) => theme.colors.background.element1};
   }
 `;
 

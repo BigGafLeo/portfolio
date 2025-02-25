@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { getDaysInMonth, getMonthName } from '../../../utils/calendarUtils';
+import { rgba } from 'polished';
 
 interface MonthCalendarProps {
   currentDate: Date;
@@ -16,7 +17,6 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
   selectedDay,
   setSelectedDay,
 }) => {
-  // Obsługa zmiany miesiąca
   const handleMonthChange = (increment: number) => {
     setCurrentDate(
       new Date(
@@ -25,7 +25,7 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
         1,
       ),
     );
-    setSelectedDay(null); // Reset wyboru dnia po zmianie miesiąca
+    setSelectedDay(null);
   };
 
   const { daysInMonth, prevMonthDays, nextMonthDays } =
@@ -61,7 +61,9 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
           <Day
             key={day}
             isSelected={selectedDay === day}
-            onClick={() => setSelectedDay(day)}
+            onClick={() =>
+              day === selectedDay ? setSelectedDay(null) : setSelectedDay(day)
+            }
           >
             {day}
           </Day>
@@ -96,7 +98,7 @@ const MonthTitle = styled.h3`
 `;
 
 const ArrowButton = styled.button`
-  background: none;
+  background: ${({ theme }) => theme.palette.indigoLight15};
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
@@ -117,12 +119,47 @@ const MonthGrid = styled.div`
 `;
 
 const Day = styled.div<{ isSelected?: boolean; isInactive?: boolean }>`
-  padding: 10px;
+  width: 40px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   text-align: center;
   cursor: ${({ isInactive }) => (isInactive ? 'default' : 'pointer')};
-  background-color: ${({ isSelected, theme }) =>
-    isSelected ? theme.palette.secretGarden : 'transparent'};
-  color: ${({ isInactive, theme }) =>
-    isInactive ? theme.palette.comet : theme.palette.bigstone};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  font-weight: ${({ isSelected }) => (isSelected ? 500 : 'normal')};
+  line-height: 1;
+  overflow: hidden;
+
+  background-color: ${({ isSelected, theme, isInactive }) =>
+    isSelected
+      ? theme.palette.secretGarden
+      : isInactive
+        ? rgba(theme.colors.background.element1, 0.15)
+        : rgba(theme.colors.background.element1, 0.5)};
+
+  color: ${({ isInactive, theme, isSelected }) =>
+    isSelected
+      ? theme.colors.text.light
+      : isInactive
+        ? theme.colors.text.lessDark
+        : theme.colors.text.default};
+
+  transform: ${({ isSelected }) => (isSelected ? 'scale(1.2)' : 'scale(1)')};
+  transition:
+    transform 0.1s ease-in-out,
+    background-color 0.1s ease-in-out,
+    font-weight 0.1s ease-in-out;
+
+  &:hover {
+    ${({ isInactive, isSelected, theme }) =>
+      !isInactive &&
+      !isSelected &&
+      `
+        background-color: ${theme.colors.background.element2};
+        transform: scale(1.1);
+        font-weight: 550;
+      `}
+  }
 `;

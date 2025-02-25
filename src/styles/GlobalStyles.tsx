@@ -49,22 +49,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${({ theme }) => theme.fontSizes.medium};
     font-weight: 500;
     font-family: inherit;
-    background-color: ${({ theme }) => theme.palette.lightWisteria};
     color: ${({ theme }) => theme.colors.text.default};
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: ${({ theme }) => theme.shadows.xs};
   }
 
-  button:hover {
-    /* background-color: ${({ theme }) => theme.palette.wisteria}; */
-    box-shadow: ${({ theme }) => theme.shadows.m};
-  }
 
-  button:focus,
-  button:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.palette.indigoLight};
-  }
 `;
 
 export default GlobalStyle;

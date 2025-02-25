@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { MyButton } from '../general/StyledButton';
 import { rgba } from 'polished';
+import { useNavigate } from 'react-router-dom';
 
 export const AboutMeComponent = () => {
+  const navigate = useNavigate();
+
   return (
     <Card>
       <DescContainer>
@@ -16,6 +19,7 @@ export const AboutMeComponent = () => {
         <MyButton
           variant="primary"
           style={{ marginTop: '20px', maxWidth: '150px' }}
+          onClick={() => navigate('/contact')}
         >
           Send inquiry
         </MyButton>

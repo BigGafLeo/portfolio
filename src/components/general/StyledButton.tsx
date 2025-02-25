@@ -8,7 +8,9 @@ interface ButtonProps {
   onClick?: () => void;
   href?: string;
   style?: React.CSSProperties;
+  isSelected?: boolean;
   download?: boolean;
+  disabled?: boolean;
 }
 
 export const MyButton = ({
@@ -17,6 +19,7 @@ export const MyButton = ({
   onClick,
   href,
   style,
+  isSelected,
   download,
 }: ButtonProps) => {
   if (href) {
@@ -25,6 +28,7 @@ export const MyButton = ({
         href={href}
         variant={variant}
         style={style}
+        isSelected={isSelected}
         download={download}
       >
         {children}
@@ -33,13 +37,18 @@ export const MyButton = ({
   }
 
   return (
-    <StyledButton onClick={onClick} variant={variant} style={style}>
+    <StyledButton
+      onClick={onClick}
+      variant={variant}
+      style={style}
+      isSelected={isSelected}
+    >
       {children}
     </StyledButton>
   );
 };
 
-// Style bazowe dla przycisku
+// 🔹 **Style bazowe dla przycisku**
 const baseStyles = css`
   display: inline-flex;
   align-items: center;
@@ -55,23 +64,24 @@ const baseStyles = css`
     border-color 0.3s ease-in-out;
 `;
 
-// Główne style przycisku
-const StyledButton = styled.button<{ variant: ButtonVariant }>`
+// 🔹 **Style dla głównego przycisku**
+const StyledButton = styled.button<{
+  variant: ButtonVariant;
+  isSelected?: boolean;
+}>`
   ${baseStyles}
   border: none;
 
-  ${({ variant, theme }) => {
+  ${({ variant, theme, isSelected }) => {
     switch (variant) {
       case 'danger':
         return css`
-          /* 1) Kolor bazowy przycisku (bez hover) */
           background-color: ${theme.palette.chilly};
           color: ${theme.palette.white};
           position: relative;
           z-index: 0;
           overflow: hidden;
 
-          /* 2) Po najechaniu: uruchamiamy obie animacje w tym samym czasie (2s) */
           &:hover {
             &::before {
               animation: fillTomato 2s linear forwards;
@@ -81,7 +91,6 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
             }
           }
 
-          /* 3) Wspólne style pseudo-elementów */
           &::before,
           &::after {
             content: '';
@@ -90,24 +99,21 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
             bottom: 0;
           }
 
-          /* 4) ::before - tło tomato, od 0% do 100% szerokości */
           &::before {
             left: 0;
             width: 0;
             background-color: ${theme.palette.tomato};
-            z-index: -1; /* za tekstem */
+            z-index: -1;
           }
 
-          /* 5) ::after - pionowa kreska w kolorze bigstone */
           &::after {
             width: 3px;
             left: 0;
-            opacity: 0; /* startowo niewidoczna */
+            opacity: 0;
             background-color: ${theme.palette.bigstone};
-            z-index: -1; /* też za tekstem */
+            z-index: -1;
           }
 
-          /* 6) Animacje kluczowe */
           @keyframes fillTomato {
             0% {
               width: 0;
@@ -122,24 +128,20 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
               left: 0;
               opacity: 0;
             }
-            /* Lekki fade-in na początku */
             10% {
               left: 10%;
               opacity: 1;
             }
-            /* Przez większość czasu kreska jest widoczna i "jedzie" do prawej */
             90% {
               left: 90%;
               opacity: 1;
             }
-            /* Na samym końcu przesuwa się ostatnie procenty i znika */
             100% {
               left: calc(100% - 3px);
               opacity: 0;
             }
           }
         `;
-      /* Pozostałe warianty – przykład */
       case 'primary':
         return css`
           background-color: ${theme.palette.timide};
@@ -160,12 +162,16 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
         `;
       case 'outline':
         return css`
-          background-color: transparent;
-          border: 2px solid ${theme.palette.secretGarden};
-          color: ${theme.palette.secretGarden};
+          background-color: ${isSelected
+            ? theme.colors.background.element1
+            : 'transparent'};
+          border: 2px solid ${theme.colors.border.main};
+          color: ${isSelected
+            ? theme.colors.text.light
+            : theme.colors.text.main};
 
           &:hover {
-            background-color: ${theme.palette.secretGarden};
+            background-color: ${theme.colors.background.element1};
             color: ${theme.palette.white};
           }
         `;
@@ -175,13 +181,12 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
   }}
 `;
 
-const StyledLink = styled.a<{ variant: ButtonVariant }>`
+// 🔹 **Style dla linku (np. `<a href="..." />`)**
+const StyledLink = styled.a<{ variant: ButtonVariant; isSelected?: boolean }>`
   ${baseStyles}
 
-  ${({ variant, theme }) => {
+  ${({ variant, theme, isSelected }) => {
     switch (variant) {
-      /* Jeżeli potrzebujesz taki sam efekt przy hoverze linka (danger),
-         skopiuj analogicznie kod z StyledButton */
       case 'danger':
         return css`
           background-color: ${theme.palette.mintblue};
@@ -189,6 +194,19 @@ const StyledLink = styled.a<{ variant: ButtonVariant }>`
 
           &:hover {
             background-color: ${theme.palette.chilly};
+          }
+        `;
+      case 'outline':
+        return css`
+          background-color: ${isSelected
+            ? theme.colors.background.element1
+            : 'transparent'};
+          border: 2px solid ${theme.colors.border.main};
+          color: ${isSelected ? theme.palette.white : theme.colors.text.main};
+
+          &:hover {
+            background-color: ${theme.colors.background.element1};
+            color: ${theme.palette.white};
           }
         `;
       default:

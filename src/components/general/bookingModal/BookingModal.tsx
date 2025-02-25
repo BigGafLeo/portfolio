@@ -3,14 +3,44 @@ import styled from 'styled-components';
 import { useModal } from '../../../context/ModalContext';
 import { MonthCalendar } from './MonthCalendar';
 import { AvailableSlots } from './AvailableSlots';
+import { MyButton } from '../StyledButton';
 
 export const BookingModal: React.FC = () => {
   const { isModalOpen, closeModal } = useModal();
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [bookStep, setBookStep] = useState<number>(1);
+
+  let content = null;
 
   if (!isModalOpen) return null;
+
+  switch (bookStep) {
+    case 1:
+      content = (
+        <>
+          <BackgroundColorWrapper>
+            <MonthCalendar
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+              selectedDay={selectedDay}
+              setSelectedDay={setSelectedDay}
+            />
+          </BackgroundColorWrapper>
+          <BackgroundColorWrapper>
+            <AvailableSlots
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+            />
+          </BackgroundColorWrapper>
+        </>
+      );
+      break;
+    case 2:
+      content = <></>;
+      break;
+  }
 
   return (
     <Overlay>
@@ -19,19 +49,29 @@ export const BookingModal: React.FC = () => {
           <ModalTitle>Book a Call</ModalTitle>
           <CloseButton onClick={closeModal}>×</CloseButton>
         </ModalHeader>
-
-        <Content>
-          <MonthCalendar
-            currentDate={currentDate}
-            setCurrentDate={setCurrentDate}
-            selectedDay={selectedDay}
-            setSelectedDay={setSelectedDay}
-          />
-          <AvailableSlots
-            selectedTime={selectedTime}
-            setSelectedTime={setSelectedTime}
-          />
-        </Content>
+        <StepsContainer>
+          <MyButton
+            isSelected={bookStep === 1}
+            variant="outline"
+            onClick={() => setBookStep(1)}
+            style={{
+              width: '100%',
+            }}
+          >
+            Step 1
+          </MyButton>
+          <MyButton
+            isSelected={bookStep === 2}
+            variant="outline"
+            onClick={() => setBookStep(2)}
+            style={{
+              width: '100%',
+            }}
+          >
+            Step 2
+          </MyButton>
+        </StepsContainer>
+        <Content>{content}</Content>
       </ModalContainer>
     </Overlay>
   );
@@ -52,8 +92,8 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  height: 600px;
-  background: ${({ theme }) => theme.palette.white};
+  height: auto;
+  background-color: ${({ theme }) => theme.colors.background.element2};
   width: 90%;
   max-width: 700px;
   border-radius: ${({ theme }) => theme.borderRadiuses.m};
@@ -62,29 +102,51 @@ const ModalContainer = styled.div`
 `;
 
 const ModalHeader = styled.div`
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: ${({ theme }) => theme.spacing.medium};
-  background: ${({ theme }) => theme.palette.secretGarden};
-  color: ${({ theme }) => theme.palette.white};
+  background: ${({ theme }) => theme.colors.background.element1};
+  color: ${({ theme }) => theme.colors.text.light};
+`;
+
+const StepsContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  gap: ${({ theme }) => theme.spacing.small};
+  padding: ${({ theme }) => theme.spacing.medium};
 `;
 
 const ModalTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.large};
+  text-align: center;
+  flex: 1;
 `;
 
 const CloseButton = styled.button`
+  position: absolute;
+  right: ${({ theme }) => theme.spacing.medium};
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${({ theme }) => theme.palette.white};
+  color: ${({ theme }) => theme.colors.text.light};
 `;
 
 const Content = styled.div`
+  width: 100%;
   display: flex;
-  padding: ${({ theme }) => theme.spacing.large};
+  gap: ${({ theme }) => theme.spacing.bigger};
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: ${({ theme }) => theme.spacing.bigger};
+`;
+
+const BackgroundColorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export default BookingModal;

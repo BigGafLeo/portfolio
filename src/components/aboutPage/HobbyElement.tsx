@@ -18,13 +18,14 @@ export const HobbyElement = ({ icon, label }: HobbyElementProps) => {
 
 // **📌 Pojedynczy element hobby**
 const HobbyCard = styled.div`
+  background: ${({ theme }) => theme.colors.background.element4};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 140px;
   height: 180px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   text-align: center;
   padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadiuses.m};
@@ -44,7 +45,9 @@ const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 2px ${({ theme }) => theme.palette.indigoLight};
+  border:
+    solid ${({ theme }) => theme.borderSize.m},
+    ${({ theme }) => theme.colors.border.main};
   margin-bottom: ${({ theme }) => theme.spacing.small};
 `;
 
