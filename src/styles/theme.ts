@@ -28,6 +28,7 @@ export const palette = {
   picoIvory: '#FFF1E7',
   carnival: '#EC8327',
   bamboo: '#DC6803',
+  peach: '#FFD3AC',
 
   //green
   mintCream: '#F5FFF9',
@@ -85,12 +86,14 @@ export const theme: DefaultTheme = {
       element3: palette.indigoLight,
       element4: rgba(palette.indigoLight, 0.2),
       header: palette.dove,
+      disabled: palette.bamboo,
     },
     text: {
       default: palette.bigstone,
       lessDark: palette.comet,
       light: palette.athens,
       lower: palette.comet,
+      disabled: palette.bamboo,
       green: palette.fernGreen,
       red: palette.chilly,
       orange: palette.bamboo,
@@ -108,6 +111,7 @@ export const theme: DefaultTheme = {
     },
     border: {
       main: palette.indigoLight,
+      disabled: palette.bamboo,
     },
   },
   breakpoints: {

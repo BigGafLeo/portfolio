@@ -60,7 +60,9 @@ export const BookingModal: React.FC = () => {
           >
             Step 1
           </MyButton>
+
           <MyButton
+            isDisabled={selectedDay === null || selectedTime === null}
             isSelected={bookStep === 2}
             variant="outline"
             onClick={() => setBookStep(2)}

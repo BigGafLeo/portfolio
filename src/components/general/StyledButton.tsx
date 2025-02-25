@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import styled, { css } from 'styled-components';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'danger';
@@ -10,7 +11,7 @@ interface ButtonProps {
   style?: React.CSSProperties;
   isSelected?: boolean;
   download?: boolean;
-  disabled?: boolean;
+  isDisabled?: boolean;
 }
 
 export const MyButton = ({
@@ -21,6 +22,7 @@ export const MyButton = ({
   style,
   isSelected,
   download,
+  isDisabled,
 }: ButtonProps) => {
   if (href) {
     return (
@@ -38,10 +40,11 @@ export const MyButton = ({
 
   return (
     <StyledButton
-      onClick={onClick}
+      onClick={isDisabled ? undefined : onClick}
       variant={variant}
       style={style}
       isSelected={isSelected}
+      isDisabled={isDisabled}
     >
       {children}
     </StyledButton>
@@ -57,22 +60,22 @@ const baseStyles = css`
   font-weight: 600;
   padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadiuses.xl};
-  cursor: pointer;
   text-decoration: none;
   transition:
     background-color 0.3s ease-in-out,
     border-color 0.3s ease-in-out;
+  cursor: pointer;
 `;
 
-// 🔹 **Style dla głównego przycisku**
 const StyledButton = styled.button<{
   variant: ButtonVariant;
   isSelected?: boolean;
+  isDisabled?: boolean;
 }>`
   ${baseStyles}
   border: none;
 
-  ${({ variant, theme, isSelected }) => {
+  ${({ variant, theme, isSelected, isDisabled }) => {
     switch (variant) {
       case 'danger':
         return css`
@@ -162,17 +165,23 @@ const StyledButton = styled.button<{
         `;
       case 'outline':
         return css`
-          background-color: ${isSelected
-            ? theme.colors.background.element1
-            : 'transparent'};
+          background-color: ${isDisabled
+            ? theme.palette.carnival
+            : isSelected
+              ? rgba(theme.colors.background.element1, 0.8)
+              : 'transparent'};
           border: 2px solid ${theme.colors.border.main};
-          color: ${isSelected
-            ? theme.colors.text.light
-            : theme.colors.text.main};
+          color: ${isDisabled
+            ? null
+            : isSelected
+              ? theme.palette.white
+              : theme.colors.text.main};
 
           &:hover {
-            background-color: ${theme.colors.background.element1};
-            color: ${theme.palette.white};
+            background-color: ${!isDisabled
+              ? theme.colors.background.element1
+              : null};
+            color: ${!isDisabled ? theme.palette.white : null};
           }
         `;
       default:
@@ -181,21 +190,11 @@ const StyledButton = styled.button<{
   }}
 `;
 
-// 🔹 **Style dla linku (np. `<a href="..." />`)**
 const StyledLink = styled.a<{ variant: ButtonVariant; isSelected?: boolean }>`
   ${baseStyles}
 
   ${({ variant, theme, isSelected }) => {
     switch (variant) {
-      case 'danger':
-        return css`
-          background-color: ${theme.palette.mintblue};
-          color: ${theme.palette.white};
-
-          &:hover {
-            background-color: ${theme.palette.chilly};
-          }
-        `;
       case 'outline':
         return css`
           background-color: ${isSelected
