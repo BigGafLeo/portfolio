@@ -9,6 +9,7 @@ interface FormFieldProps {
   value: string;
   placeholder?: string;
   isTextArea?: boolean;
+  isNecessary?: boolean; // ✅ Nowy props określający, czy pole jest wymagane
   setFormData: (name: string, value: string, isValid: boolean) => void;
 }
 
@@ -19,6 +20,7 @@ export const FormField: React.FC<FormFieldProps> = ({
   value,
   placeholder,
   isTextArea = false,
+  isNecessary = true, // ✅ Domyślnie pola są wymagane
   setFormData,
 }) => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -40,7 +42,9 @@ export const FormField: React.FC<FormFieldProps> = ({
 
   return (
     <FieldContainer>
-      <Label htmlFor={name}>{label}</Label>
+      <Label htmlFor={name}>
+        {label} {isNecessary && <RequiredMark>*</RequiredMark>}
+      </Label>
       {isTextArea ? (
         <TextArea
           id={name}
@@ -78,6 +82,15 @@ const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text.default};
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Dodaje odstęp między etykietą a gwiazdką */
+`;
+
+const RequiredMark = styled.span`
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 const Input = styled.input`

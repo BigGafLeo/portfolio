@@ -85,6 +85,7 @@ export const theme: DefaultTheme = {
       element2: palette.porcelain,
       element3: palette.indigoLight,
       element4: rgba(palette.indigoLight, 0.2),
+      element5: rgba(palette.indigoLight, 0.8),
       header: palette.dove,
       disabled: palette.carnival,
     },

@@ -76,9 +76,14 @@ const Tile = styled.button`
   justify-content: center;
   height: 100%;
 
+  transition:
+    transform 0.3s ease-in-out,
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+
   &:hover {
-    background-color: ${({ theme }) =>
-      rgba(theme.colors.background.element2, 0.5)};
-    transform: scale(1.05);
+    background-color: ${({ theme }) => theme.colors.background.element3};
+    color: ${({ theme }) => theme.colors.text.light};
+    transform: scale(1.1);
   }
 `;

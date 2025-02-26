@@ -103,12 +103,14 @@ const TimeSlot = styled.div<{ index: number; isSelected?: boolean }>`
   transition:
     transform 0.1s ease-in-out,
     background-color 0.1s ease-in-out,
-    font-weight 0.1s ease-in-out;
+    font-weight 0.1s ease-in-out,
+    color 0.1s ease-in-out;
 
   &:hover {
     ${({ isSelected, theme }) =>
       !isSelected &&
       `
+        color: ${theme.colors.text.light};
         background-color: ${rgba(theme.colors.background.element1, 1)};
         transform: scale(1.2);
         font-weight: 550;

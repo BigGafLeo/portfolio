@@ -137,7 +137,20 @@ export const BookingModal: React.FC = () => {
       break;
     case 2:
       content = (
-        <>
+        <MainContainer>
+          <DateList>
+            <DateElement>
+              <StyledDate>
+                Date: {selectedDay?.toString().padStart(2, '0')}-
+                {(currentDate.getMonth() + 1).toString().padStart(2, '0')}-
+                {currentDate.getFullYear()}
+              </StyledDate>
+            </DateElement>
+
+            <DateElement>
+              <StyledDate>Time: {selectedTime}</StyledDate>
+            </DateElement>
+          </DateList>
           <FormContainer onSubmit={handleSubmit}>
             <GridContainer>
               <FormField
@@ -170,9 +183,14 @@ export const BookingModal: React.FC = () => {
                 placeholder="+48 000 000 000"
               />
             </GridContainer>
+            {feedbackMessage && (
+              <FeedbackMessage success={isSuccess}>
+                {feedbackMessage}
+              </FeedbackMessage>
+            )}
             <MyButton isDisabled={!isFormValid}>Set up meeting!</MyButton>
           </FormContainer>
-        </>
+        </MainContainer>
       );
       break;
   }
@@ -217,6 +235,7 @@ export const BookingModal: React.FC = () => {
 export default BookingModal;
 
 // 📌 **Stylizacja**
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -282,6 +301,28 @@ const Content = styled.div`
   padding: ${({ theme }) => theme.spacing.bigger};
 `;
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DateList = styled.ul`
+  padding: ${({ theme }) => theme.spacing.medium};
+  gap: ${({ theme }) => theme.spacing.small};
+  background-color: ${({ theme }) => theme.colors.background.element4};
+  border-radius: ${({ theme }) => theme.borderRadiuses.l};
+  max-width: 40%;
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+`;
+
+const StyledDate = styled.p`
+  font-weight: 500;
+`;
+
+const DateElement = styled.li`
+  list-style-type: none;
+`;
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -303,14 +344,14 @@ const BackgroundColorWrapper = styled.div`
   flex: 1;
 `;
 
-// const FeedbackMessage = styled.p<{ success?: boolean | null }>`
-//   font-size: ${({ theme }) => theme.fontSizes.medium};
-//   color: ${({ success, theme }) =>
-//     success === true
-//       ? theme.palette.secretGarden
-//       : success === false
-//         ? theme.palette.tomato
-//         : theme.palette.comet};
-//   text-align: center;
-//   margin-top: ${({ theme }) => theme.spacing.small};
-// `;
+const FeedbackMessage = styled.p<{ success?: boolean | null }>`
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  color: ${({ success, theme }) =>
+    success === true
+      ? theme.palette.secretGarden
+      : success === false
+        ? theme.palette.tomato
+        : theme.palette.comet};
+  text-align: center;
+  margin-top: ${({ theme }) => theme.spacing.small};
+`;

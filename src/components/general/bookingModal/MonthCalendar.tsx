@@ -32,6 +32,9 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
     getDaysInMonth(currentDate);
   const monthName = getMonthName(currentDate);
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   return (
     <CalendarSection>
       <CalendarHeader>
@@ -57,17 +60,33 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
             {day}
           </Day>
         ))}
-        {daysInMonth.map((day) => (
-          <Day
-            key={day}
-            isSelected={selectedDay === day}
-            onClick={() =>
-              day === selectedDay ? setSelectedDay(null) : setSelectedDay(day)
-            }
-          >
-            {day}
-          </Day>
-        ))}
+
+        {daysInMonth.map((day) => {
+          const dateToCompare = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            day,
+          );
+          const isEarlier = dateToCompare < today;
+
+          return (
+            <Day
+              key={day}
+              isSelected={selectedDay === day}
+              earlier={isEarlier}
+              onClick={() =>
+                day === selectedDay
+                  ? setSelectedDay(null)
+                  : isEarlier
+                    ? setSelectedDay(null)
+                    : setSelectedDay(day)
+              }
+            >
+              {day}
+            </Day>
+          );
+        })}
+
         {nextMonthDays.map((day, index) => (
           <Day key={`next-${index}`} isInactive>
             {day}
@@ -98,10 +117,16 @@ const MonthTitle = styled.h3`
 `;
 
 const ArrowButton = styled.button`
-  background: ${({ theme }) => theme.palette.indigoLight15};
+  background: ${({ theme }) => theme.colors.background.element4};
   border: none;
   font-size: 1.2rem;
+
   cursor: pointer;
+
+  //FIXME: hover dziwnie działa tylko na obszarze ikony, z ikonami zewnętrznymi jest podobnie
+  /* :hover {
+    background-color: ${({ theme }) => theme.colors.background.element5};
+  } */
 `;
 
 const WeekDays = styled.div`
@@ -118,7 +143,11 @@ const MonthGrid = styled.div`
   gap: ${({ theme }) => theme.spacing.small};
 `;
 
-const Day = styled.div<{ isSelected?: boolean; isInactive?: boolean }>`
+const Day = styled.div<{
+  isSelected?: boolean;
+  isInactive?: boolean;
+  earlier?: boolean;
+}>`
   width: 40px;
   height: 50px;
   display: flex;
@@ -126,23 +155,26 @@ const Day = styled.div<{ isSelected?: boolean; isInactive?: boolean }>`
   justify-content: center;
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   text-align: center;
-  cursor: ${({ isInactive }) => (isInactive ? 'default' : 'pointer')};
+  cursor: ${({ isInactive, earlier }) =>
+    isInactive || earlier ? 'default' : 'pointer'};
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-weight: ${({ isSelected }) => (isSelected ? 500 : 'normal')};
   line-height: 1;
   overflow: hidden;
 
-  background-color: ${({ isSelected, theme, isInactive }) =>
+  background-color: ${({ isSelected, theme, isInactive, earlier }) =>
     isSelected
       ? theme.palette.secretGarden
       : isInactive
         ? rgba(theme.colors.background.element1, 0.15)
-        : rgba(theme.colors.background.element1, 0.5)};
+        : earlier
+          ? rgba(theme.colors.background.element1, 0.3)
+          : rgba(theme.colors.background.element1, 0.7)};
 
-  color: ${({ isInactive, theme, isSelected }) =>
+  color: ${({ isInactive, theme, isSelected, earlier }) =>
     isSelected
       ? theme.colors.text.light
-      : isInactive
+      : isInactive || earlier
         ? theme.colors.text.lessDark
         : theme.colors.text.default};
 
@@ -150,14 +182,17 @@ const Day = styled.div<{ isSelected?: boolean; isInactive?: boolean }>`
   transition:
     transform 0.1s ease-in-out,
     background-color 0.1s ease-in-out,
-    font-weight 0.1s ease-in-out;
+    font-weight 0.1s ease-in-out,
+    color 0.1s ease-in-out;
 
   &:hover {
-    ${({ isInactive, isSelected, theme }) =>
+    ${({ isInactive, isSelected, theme, earlier }) =>
       !isInactive &&
       !isSelected &&
+      !earlier &&
       `
-        background-color: ${theme.colors.background.element2};
+        color: ${theme.colors.text.light};
+        background-color: ${theme.colors.background.element3};
         transform: scale(1.1);
         font-weight: 550;
       `}
