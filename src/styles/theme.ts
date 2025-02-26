@@ -86,7 +86,7 @@ export const theme: DefaultTheme = {
       element3: palette.indigoLight,
       element4: rgba(palette.indigoLight, 0.2),
       header: palette.dove,
-      disabled: palette.bamboo,
+      disabled: palette.carnival,
     },
     text: {
       default: palette.bigstone,

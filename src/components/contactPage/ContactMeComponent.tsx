@@ -1,45 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FormField } from '../general/FormField';
-import { validateForm, ValidationErrors } from './validation';
-import { sendEmail } from './sendEmail'; // Import funkcji wysyłki e-mail
+import { sendEmail } from './sendEmail';
 
 export const ContactMeComponent: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    subject: '',
+    name: { value: '', isValid: false },
+    email: { value: '', isValid: false },
+    subject: { value: '', isValid: false },
+    message: { value: '', isValid: false },
   });
 
-  const [errors, setErrors] = useState<ValidationErrors>({});
-  const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [isSending, setIsSending] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState<boolean | null>(null); // Dodaj nowy stan dla sukcesu
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    if (touched[name]) {
-      setErrors((prev) => ({ ...prev, [name]: validateForm(name, value) }));
-    }
+  const updateFormData = (name: string, value: string, isValid: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: { value, isValid },
+    }));
   };
 
-  const handleBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, [name]: validateForm(name, value) }));
-  };
-
-  const isFormValid =
-    !Object.values(errors).some((error) => error) &&
-    Object.values(formData).every((value) => value.trim() !== '');
+  useEffect(() => {
+    setIsFormValid(Object.values(formData).every((field) => field.isValid));
+  }, [formData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,12 +35,24 @@ export const ContactMeComponent: React.FC = () => {
     setFeedbackMessage(null);
     setIsSuccess(null);
 
-    const result = await sendEmail(formData);
+    const formDataToSend = {
+      name: formData.name.value,
+      email: formData.email.value,
+      subject: formData.subject.value,
+      message: formData.message.value,
+    };
+
+    const result = await sendEmail(formDataToSend);
 
     if (result.success) {
       setFeedbackMessage('Message sent successfully!');
       setIsSuccess(true);
-      setFormData({ name: '', email: '', message: '', subject: '' }); // Reset formularza
+      setFormData({
+        name: { value: '', isValid: false },
+        email: { value: '', isValid: false },
+        subject: { value: '', isValid: false },
+        message: { value: '', isValid: false },
+      });
     } else {
       setFeedbackMessage('Something went wrong. Please try again.');
       setIsSuccess(false);
@@ -68,43 +66,34 @@ export const ContactMeComponent: React.FC = () => {
       <FormField
         label="Name"
         name="name"
-        value={formData.name}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        value={formData.name.value}
+        setFormData={updateFormData}
         placeholder="Enter your name"
-        error={errors.name}
       />
       <FormField
         label="Email"
         type="email"
         name="email"
-        value={formData.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        value={formData.email.value}
+        setFormData={updateFormData}
         placeholder="Enter your email"
-        error={errors.email}
       />
       <FormField
         label="Subject"
         name="subject"
-        value={formData.subject}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        value={formData.subject.value}
+        setFormData={updateFormData}
         placeholder="Enter message subject"
-        error={errors.subject}
       />
       <FormField
         label="Message"
         name="message"
-        value={formData.message}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        value={formData.message.value}
+        setFormData={updateFormData}
         placeholder="Write your message..."
-        error={errors.message}
         isTextArea
       />
 
-      {/* Komunikat o statusie wiadomości */}
       {feedbackMessage && (
         <FeedbackMessage success={isSuccess}>{feedbackMessage}</FeedbackMessage>
       )}
@@ -118,7 +107,7 @@ export const ContactMeComponent: React.FC = () => {
   );
 };
 
-// **Stylizacja**
+// 📌 **Stylizacja**
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -168,3 +157,5 @@ const FeedbackMessage = styled.p<{ success?: boolean | null }>`
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing.small};
 `;
+
+export default ContactMeComponent;

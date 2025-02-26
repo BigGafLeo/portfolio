@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { validateForm } from '../contactPage/validation';
 
 interface FormFieldProps {
   label: string;
@@ -7,12 +8,8 @@ interface FormFieldProps {
   name: string;
   value: string;
   placeholder?: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  error?: string;
   isTextArea?: boolean;
+  setFormData: (name: string, value: string, isValid: boolean) => void;
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
@@ -21,11 +18,26 @@ export const FormField: React.FC<FormFieldProps> = ({
   name,
   value,
   placeholder,
-  onChange,
-  onBlur,
-  error,
   isTextArea = false,
+  setFormData,
 }) => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [touched, setTouched] = useState<boolean>(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const newValue = e.target.value;
+    const isValid = validateForm(name, newValue) === undefined;
+    setFormData(name, newValue, isValid);
+    if (touched) setError(validateForm(name, newValue));
+  };
+
+  const handleBlur = () => {
+    setError(validateForm(name, value));
+    setTouched(true);
+  };
+
   return (
     <FieldContainer>
       <Label htmlFor={name}>{label}</Label>
@@ -34,8 +46,8 @@ export const FormField: React.FC<FormFieldProps> = ({
           id={name}
           name={name}
           value={value}
-          onChange={onChange}
-          onBlur={onBlur}
+          onChange={handleChange}
+          onBlur={handleBlur}
           placeholder={placeholder}
         />
       ) : (
@@ -44,8 +56,8 @@ export const FormField: React.FC<FormFieldProps> = ({
           type={type}
           name={name}
           value={value}
-          onChange={onChange}
-          onBlur={onBlur}
+          onChange={handleChange}
+          onBlur={handleBlur}
           placeholder={placeholder}
         />
       )}
@@ -54,7 +66,7 @@ export const FormField: React.FC<FormFieldProps> = ({
   );
 };
 
-// **Stylizacja**
+// 📌 **Stylizacja**
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,31 +83,19 @@ const Label = styled.label`
 const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: ${({ theme }) => theme.spacing.small};
-  border: ${({ theme }) => theme.borderSize.s} solid
-    ${({ theme }) => theme.palette.mystic};
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   outline: none;
   width: 100%;
-
-  &:focus {
-    border-color: ${({ theme }) => theme.palette.secretGarden};
-  }
 `;
 
 const TextArea = styled.textarea`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: ${({ theme }) => theme.spacing.small};
   height: 150px;
-  border: ${({ theme }) => theme.borderSize.s} solid
-    ${({ theme }) => theme.palette.mystic};
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   resize: none;
   outline: none;
   width: 100%;
-
-  &:focus {
-    border-color: ${({ theme }) => theme.palette.secretGarden};
-  }
 `;
 
 const ErrorMessage = styled.span`

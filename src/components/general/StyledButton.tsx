@@ -147,11 +147,13 @@ const StyledButton = styled.button<{
         `;
       case 'primary':
         return css`
-          background-color: ${theme.palette.timide};
-          color: ${theme.palette.white};
+          background-color: ${isDisabled
+            ? theme.colors.background.disabled
+            : theme.colors.background.element3};
+          color: ${theme.colors.text.light};
 
           &:hover {
-            background-color: ${theme.palette.fernGreen};
+            background-color: ${isDisabled ? null : theme.palette.fernGreen};
           }
         `;
       case 'secondary':
@@ -166,7 +168,7 @@ const StyledButton = styled.button<{
       case 'outline':
         return css`
           background-color: ${isDisabled
-            ? theme.palette.carnival
+            ? theme.colors.background.disabled
             : isSelected
               ? rgba(theme.colors.background.element1, 0.8)
               : 'transparent'};

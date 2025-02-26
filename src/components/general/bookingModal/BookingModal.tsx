@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useModal } from '../../../context/ModalContext';
 import { MonthCalendar } from './MonthCalendar';
 import { AvailableSlots } from './AvailableSlots';
 import { MyButton } from '../StyledButton';
+import { FormField } from '../FormField';
+import { sendBookingEmail } from './sendBookingEmail';
 
 export const BookingModal: React.FC = () => {
   const { isModalOpen, closeModal } = useModal();
@@ -11,6 +13,102 @@ export const BookingModal: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [bookStep, setBookStep] = useState<number>(1);
+
+  const [isSending, setIsSending] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Nowa struktura formData przechowująca wartość i isValid
+  const [formData, setFormData] = useState({
+    subject: { value: '', isValid: false },
+    email: { value: '', isValid: false },
+    phone: { value: '', isValid: false },
+    name: { value: '', isValid: false },
+  });
+
+  const updateFormData = (name: string, value: string, isValid: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: { value, isValid },
+    }));
+  };
+
+  useEffect(() => {
+    setIsFormValid(
+      Object.values(formData).every((field) => {
+        return field.isValid;
+      }),
+    );
+  }, [formData]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid || !selectedDay || !selectedTime || isSending) return;
+
+    setIsSending(true);
+    setFeedbackMessage(null);
+    setIsSuccess(null);
+
+    // 🔹 Konwersja daty i godziny na format YYYYMMDDTHHMMSSZ
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = selectedDay.toString().padStart(2, '0');
+
+    // 🔹 Pobieranie godziny i minuty ze selectedTime
+    const [hour, minute] = selectedTime.split(':').map(Number);
+
+    // 🔹 Ustawienie czasu zakończenia spotkania (1 godzina później)
+    const endHour = (hour + 1).toString().padStart(2, '0');
+    const formattedStartDate = `${year}${month}${day}T${hour
+      .toString()
+      .padStart(2, '0')}${minute.toString().padStart(2, '0')}00Z`;
+    const formattedEndDate = `${year}${month}${day}T${endHour}${minute
+      .toString()
+      .padStart(2, '0')}00Z`;
+
+    const formDataToSend = {
+      name: formData.name.value,
+      email: formData.email.value || undefined,
+      phone: formData.phone.value || undefined,
+      subject: formData.subject.value,
+      dateStart: formattedStartDate,
+      dateEnd: formattedEndDate,
+    };
+
+    const result = await sendBookingEmail(formDataToSend);
+
+    if (result.success) {
+      setFeedbackMessage('Meeting request sent successfully!');
+      setIsSuccess(true);
+
+      // ✅ Resetujemy dane w formularzu
+      setFormData({
+        subject: { value: '', isValid: false },
+        email: { value: '', isValid: false },
+        phone: { value: '', isValid: false },
+        name: { value: '', isValid: false },
+      });
+
+      // ✅ Resetujemy wybrany dzień i czas
+      setSelectedDay(null);
+      setSelectedTime(null);
+      setBookStep(1);
+
+      // ✅ Zamykamy modal po 1 sekundzie
+      setTimeout(() => {
+        closeModal();
+      }, 1000);
+
+      // ✅ Powiadomienie o sukcesie
+      alert('Meeting successfully booked!');
+    } else {
+      setFeedbackMessage('Something went wrong. Please try again.');
+      setIsSuccess(false);
+    }
+
+    setIsSending(false);
+  };
 
   let content = null;
 
@@ -38,7 +136,44 @@ export const BookingModal: React.FC = () => {
       );
       break;
     case 2:
-      content = <></>;
+      content = (
+        <>
+          <FormContainer onSubmit={handleSubmit}>
+            <GridContainer>
+              <FormField
+                label="Subject"
+                name="subject"
+                value={formData.subject.value}
+                setFormData={updateFormData}
+                placeholder="Pick a subject"
+              />
+              <FormField
+                label="Name"
+                name="name"
+                value={formData.name.value}
+                setFormData={updateFormData}
+                placeholder="Enter your name"
+              />
+              <FormField
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email.value}
+                setFormData={updateFormData}
+                placeholder="Enter your email"
+              />
+              <FormField
+                label="Phone number"
+                name="phone"
+                value={formData.phone.value}
+                setFormData={updateFormData}
+                placeholder="+48 000 000 000"
+              />
+            </GridContainer>
+            <MyButton isDisabled={!isFormValid}>Set up meeting!</MyButton>
+          </FormContainer>
+        </>
+      );
       break;
   }
 
@@ -78,6 +213,8 @@ export const BookingModal: React.FC = () => {
     </Overlay>
   );
 };
+
+export default BookingModal;
 
 // 📌 **Stylizacja**
 const Overlay = styled.div`
@@ -145,10 +282,35 @@ const Content = styled.div`
   padding: ${({ theme }) => theme.spacing.bigger};
 `;
 
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.large};
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: ${({ theme }) => theme.spacing.medium};
+  width: 600px;
+  height: auto;
+`;
+
 const BackgroundColorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
 `;
 
-export default BookingModal;
+// const FeedbackMessage = styled.p<{ success?: boolean | null }>`
+//   font-size: ${({ theme }) => theme.fontSizes.medium};
+//   color: ${({ success, theme }) =>
+//     success === true
+//       ? theme.palette.secretGarden
+//       : success === false
+//         ? theme.palette.tomato
+//         : theme.palette.comet};
+//   text-align: center;
+//   margin-top: ${({ theme }) => theme.spacing.small};
+// `;
