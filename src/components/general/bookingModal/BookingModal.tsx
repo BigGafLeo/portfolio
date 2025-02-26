@@ -180,7 +180,7 @@ export const BookingModal: React.FC = () => {
                 name="phone"
                 value={formData.phone.value}
                 setFormData={updateFormData}
-                placeholder="+48 000 000 000"
+                placeholder="+XX YYY YYY YYY"
               />
             </GridContainer>
             {feedbackMessage && (
