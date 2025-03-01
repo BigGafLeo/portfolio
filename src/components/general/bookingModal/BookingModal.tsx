@@ -35,6 +35,10 @@ export const BookingModal: React.FC = () => {
   };
 
   useEffect(() => {
+    setSelectedTime(null);
+  }, [selectedDay]);
+
+  useEffect(() => {
     setIsFormValid(
       Object.values(formData).every((field) => {
         return field.isValid;
@@ -42,10 +46,22 @@ export const BookingModal: React.FC = () => {
     );
   }, [formData]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setFeedbackMessage(null);
+        setIsSuccess(null);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid || !selectedDay || !selectedTime || isSending) return;
 
+    setCurrentDate(new Date());
     setIsSending(true);
     setFeedbackMessage(null);
     setIsSuccess(null);
@@ -95,13 +111,13 @@ export const BookingModal: React.FC = () => {
       setSelectedTime(null);
       setBookStep(1);
 
-      // ✅ Zamykamy modal po 1 sekundzie
-      setTimeout(() => {
-        closeModal();
-      }, 1000);
+      // // ✅ Zamykamy modal po 1 sekundzie
+      // setTimeout(() => {
+      //   closeModal();
+      // }, 1000);
 
       // ✅ Powiadomienie o sukcesie
-      alert('Meeting successfully booked!');
+      // alert('Meeting successfully booked!');
     } else {
       setFeedbackMessage('Something went wrong. Please try again.');
       setIsSuccess(false);
@@ -180,15 +196,13 @@ export const BookingModal: React.FC = () => {
                 name="phone"
                 value={formData.phone.value}
                 setFormData={updateFormData}
-                placeholder="+XX YYY YYY YYY"
+                placeholder="+00 000 000 000"
               />
             </GridContainer>
-            {feedbackMessage && (
-              <FeedbackMessage success={isSuccess}>
-                {feedbackMessage}
-              </FeedbackMessage>
-            )}
-            <MyButton isDisabled={!isFormValid}>Set up meeting!</MyButton>
+
+            <MyButton isDisabled={!isFormValid} isPending={isSending}>
+              Set up meeting!
+            </MyButton>
           </FormContainer>
         </MainContainer>
       );
@@ -226,6 +240,12 @@ export const BookingModal: React.FC = () => {
             Step 2
           </MyButton>
         </StepsContainer>
+        {feedbackMessage && (
+          <FeedbackMessage $success={isSuccess}>
+            {feedbackMessage}
+          </FeedbackMessage>
+        )}
+
         <Content>{content}</Content>
       </ModalContainer>
     </Overlay>
@@ -344,12 +364,14 @@ const BackgroundColorWrapper = styled.div`
   flex: 1;
 `;
 
-const FeedbackMessage = styled.p<{ success?: boolean | null }>`
+const FeedbackMessage = styled.p.withConfig({
+  shouldForwardProp: (prop) => prop !== 'success',
+})<{ $success?: boolean | null }>`
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  color: ${({ success, theme }) =>
-    success === true
+  color: ${({ $success, theme }) =>
+    $success === true
       ? theme.palette.secretGarden
-      : success === false
+      : $success === false
         ? theme.palette.tomato
         : theme.palette.comet};
   text-align: center;

@@ -15,7 +15,7 @@ export const TechStack = () => {
       </Header>
 
       {/* Sekcja rozwijana */}
-      <StackContent isOpen={isOpen}>
+      <StackContent $isOpen={isOpen}>
         <Category>
           <CategoryTitle>Languages & Syntax</CategoryTitle>
           <Items>
@@ -117,16 +117,18 @@ const Title = styled.span`
 `;
 
 // **Sekcja rozwijana**
-const StackContent = styled.div<{ isOpen: boolean }>`
-  max-height: ${({ isOpen }) => (isOpen ? '1000px' : '0')};
+const StackContent = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isOpen',
+})<{ $isOpen: boolean }>`
+  max-height: ${({ $isOpen }) => ($isOpen ? '1000px' : '0')};
   overflow: hidden;
   transition:
     max-height 0.4s ease-in-out,
     padding 0.3s ease-in-out;
 
   /* Poprawiona składnia padding */
-  padding: ${({ isOpen, theme }) =>
-    isOpen ? `${theme.spacing.medium} ${theme.spacing.medium}` : '0px'};
+  padding: ${({ $isOpen, theme }) =>
+    $isOpen ? `${theme.spacing.medium} ${theme.spacing.medium}` : '0px'};
 
   display: flex;
   flex-wrap: wrap;

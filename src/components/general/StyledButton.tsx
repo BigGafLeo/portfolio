@@ -12,6 +12,7 @@ interface ButtonProps {
   isSelected?: boolean;
   download?: boolean;
   isDisabled?: boolean;
+  isPending?: boolean;
 }
 
 export const MyButton = ({
@@ -23,6 +24,7 @@ export const MyButton = ({
   isSelected,
   download,
   isDisabled,
+  isPending,
 }: ButtonProps) => {
   if (href) {
     return (
@@ -30,7 +32,7 @@ export const MyButton = ({
         href={href}
         variant={variant}
         style={style}
-        isSelected={isSelected}
+        $isSelected={isSelected}
         download={download}
       >
         {children}
@@ -40,13 +42,14 @@ export const MyButton = ({
 
   return (
     <StyledButton
-      onClick={isDisabled ? undefined : onClick}
+      onClick={!isDisabled ? onClick : undefined}
       variant={variant}
       style={style}
-      isSelected={isSelected}
-      isDisabled={isDisabled}
+      $isSelected={isSelected}
+      $isDisabled={isDisabled}
+      $isPending={isPending}
     >
-      {children}
+      {isPending ? 'Sending...' : children}
     </StyledButton>
   );
 };
@@ -67,15 +70,19 @@ const baseStyles = css`
   cursor: pointer;
 `;
 
-const StyledButton = styled.button<{
+const StyledButton = styled.button.withConfig({
+  shouldForwardProp: (prop) =>
+    !['isSelected', 'isDisabled', 'isPending'].includes(prop),
+})<{
   variant: ButtonVariant;
-  isSelected?: boolean;
-  isDisabled?: boolean;
+  $isSelected?: boolean;
+  $isDisabled?: boolean;
+  $isPending?: boolean;
 }>`
   ${baseStyles}
   border: none;
 
-  ${({ variant, theme, isSelected, isDisabled }) => {
+  ${({ variant, theme, $isSelected, $isDisabled, $isPending }) => {
     switch (variant) {
       case 'danger':
         return css`
@@ -116,46 +123,24 @@ const StyledButton = styled.button<{
             background-color: ${theme.palette.bigstone};
             z-index: -1;
           }
-
-          @keyframes fillTomato {
-            0% {
-              width: 0;
-            }
-            100% {
-              width: 100%;
-            }
-          }
-
-          @keyframes moveLine {
-            0% {
-              left: 0;
-              opacity: 0;
-            }
-            10% {
-              left: 10%;
-              opacity: 1;
-            }
-            90% {
-              left: 90%;
-              opacity: 1;
-            }
-            100% {
-              left: calc(100% - 3px);
-              opacity: 0;
-            }
-          }
         `;
       case 'primary':
         return css`
-          background-color: ${isDisabled
+          background-color: ${$isDisabled
             ? theme.colors.background.disabled
             : theme.colors.background.element5};
           color: ${theme.colors.text.light};
 
           &:hover {
-            background-color: ${isDisabled
+            background-color: ${$isDisabled
               ? null
               : theme.colors.background.element3};
+
+            cursor: ${$isDisabled
+              ? 'not-allowed'
+              : $isPending
+                ? 'wait'
+                : 'pointer'};
           }
         `;
       case 'secondary':
@@ -165,30 +150,36 @@ const StyledButton = styled.button<{
 
           &:hover {
             background-color: ${theme.palette.darkWisteria};
+            cursor: ${$isDisabled
+              ? 'not-allowed'
+              : $isPending
+                ? 'wait'
+                : 'pointer'};
           }
         `;
       case 'outline':
         return css`
-          background-color: ${isDisabled
+          background-color: ${$isDisabled
             ? theme.colors.background.disabled
-            : isSelected
+            : $isSelected
               ? rgba(theme.colors.background.element1, 0.8)
               : 'transparent'};
           border: 2px solid
-            ${isDisabled
+            ${$isDisabled
               ? theme.colors.border.disabled
               : theme.colors.border.main};
-          color: ${isDisabled
+          color: ${$isDisabled
             ? theme.colors.text.light
-            : isSelected
+            : $isSelected
               ? theme.palette.white
               : theme.colors.text.main};
 
           &:hover {
-            background-color: ${!isDisabled
+            background-color: ${!$isDisabled
               ? theme.colors.background.element1
               : null};
-            color: ${!isDisabled ? theme.palette.white : null};
+            color: ${!$isDisabled ? theme.palette.white : null};
+            cursor: ${$isDisabled ? 'not-allowed' : 'pointer'};
           }
         `;
       default:
@@ -197,18 +188,20 @@ const StyledButton = styled.button<{
   }}
 `;
 
-const StyledLink = styled.a<{ variant: ButtonVariant; isSelected?: boolean }>`
+const StyledLink = styled.a.withConfig({
+  shouldForwardProp: (prop) => !['isSelected'].includes(prop),
+})<{ variant: ButtonVariant; $isSelected?: boolean }>`
   ${baseStyles}
 
-  ${({ variant, theme, isSelected }) => {
+  ${({ variant, theme, $isSelected }) => {
     switch (variant) {
       case 'outline':
         return css`
-          background-color: ${isSelected
+          background-color: ${$isSelected
             ? theme.colors.background.element1
             : 'transparent'};
           border: 2px solid ${theme.colors.border.main};
-          color: ${isSelected ? theme.palette.white : theme.colors.text.main};
+          color: ${$isSelected ? theme.palette.white : theme.colors.text.main};
 
           &:hover {
             background-color: ${theme.colors.background.element1};

@@ -7,10 +7,13 @@ export const getDaysInMonth = (date: Date) => {
 
   const numDays = lastDayOfMonth.getDate();
   const startWeekdayIndex = getWeekdayIndex(firstDayOfMonth); // 0-6 (Mon-Sun)
+  const fullDays = [0];
 
-  const daysInMonth = Array.from({ length: numDays }, (_, i) => i + 1);
+  const daysInMonth = Array.from({ length: numDays }, (_, i) => ({
+    day: i + 1,
+    isFull: fullDays.includes(i + 1),
+  }));
 
-  // Dni poprzedniego miesiąca
   const prevMonthDays = [];
   if (startWeekdayIndex > 0) {
     const prevMonthLastDay = new Date(year, month, 0).getDate();
@@ -19,7 +22,6 @@ export const getDaysInMonth = (date: Date) => {
     }
   }
 
-  // Dni następnego miesiąca (aby zapełnić 7xX siatkę)
   const totalDays = prevMonthDays.length + daysInMonth.length;
   const nextMonthDays = [];
   const remainingDays = totalDays % 7 ? 7 - (totalDays % 7) : 0;
@@ -42,8 +44,5 @@ export const getWeekdayIndex = (date: Date) => {
 export const getFirstDayOfMonth = (date: Date): number => {
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 
-  // W JavaScript getDay() zwraca:
-  // 0 - niedziela, 1 - poniedziałek, ..., 6 - sobota
-  // My chcemy układ poniedziałek (0) - niedziela (6), więc przesuwamy wartości
   return firstDay === 0 ? 6 : firstDay - 1;
 };

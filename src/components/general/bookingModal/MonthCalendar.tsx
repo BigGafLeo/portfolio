@@ -30,6 +30,7 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
 
   const { daysInMonth, prevMonthDays, nextMonthDays } =
     getDaysInMonth(currentDate);
+
   const monthName = getMonthName(currentDate);
 
   const today = new Date();
@@ -56,12 +57,12 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
 
       <MonthGrid>
         {prevMonthDays.map((day, index) => (
-          <Day key={`prev-${index}`} isInactive>
+          <Day key={`prev-${index}`} $isInactive>
             {day}
           </Day>
         ))}
 
-        {daysInMonth.map((day) => {
+        {daysInMonth.map(({ day, isFull }) => {
           const dateToCompare = new Date(
             currentDate.getFullYear(),
             currentDate.getMonth(),
@@ -72,12 +73,13 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
           return (
             <Day
               key={day}
-              isSelected={selectedDay === day}
-              earlier={isEarlier}
+              $isFull={isFull}
+              $isSelected={selectedDay === day}
+              $earlier={isEarlier || undefined}
               onClick={() =>
                 day === selectedDay
                   ? setSelectedDay(null)
-                  : isEarlier
+                  : isEarlier || isFull
                     ? setSelectedDay(null)
                     : setSelectedDay(day)
               }
@@ -88,7 +90,7 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
         })}
 
         {nextMonthDays.map((day, index) => (
-          <Day key={`next-${index}`} isInactive>
+          <Day key={`next-${index}`} $isInactive>
             {day}
           </Day>
         ))}
@@ -120,13 +122,7 @@ const ArrowButton = styled.button`
   background: ${({ theme }) => theme.colors.background.element4};
   border: none;
   font-size: 1.2rem;
-
   cursor: pointer;
-
-  //FIXME: hover dziwnie działa tylko na obszarze ikony, z ikonami zewnętrznymi jest podobnie
-  /* :hover {
-    background-color: ${({ theme }) => theme.colors.background.element5};
-  } */
 `;
 
 const WeekDays = styled.div`
@@ -143,10 +139,14 @@ const MonthGrid = styled.div`
   gap: ${({ theme }) => theme.spacing.small};
 `;
 
-const Day = styled.div<{
-  isSelected?: boolean;
-  isInactive?: boolean;
-  earlier?: boolean;
+const Day = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !['isSelected', 'isInactive', 'earlier', 'isFull'].includes(prop),
+})<{
+  $isSelected?: boolean;
+  $isInactive?: boolean;
+  $earlier?: boolean;
+  $isFull?: boolean;
 }>`
   width: 40px;
   height: 50px;
@@ -155,30 +155,38 @@ const Day = styled.div<{
   justify-content: center;
   border-radius: ${({ theme }) => theme.borderRadiuses.s};
   text-align: center;
-  cursor: ${({ isInactive, earlier }) =>
-    isInactive || earlier ? 'default' : 'pointer'};
+  cursor: ${({ $isInactive, $earlier }) =>
+    $isInactive || $earlier ? 'default' : 'pointer'};
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  font-weight: ${({ isSelected }) => (isSelected ? 500 : 'normal')};
+  font-weight: ${({ $isSelected }) => ($isSelected ? 500 : 'normal')};
   line-height: 1;
   overflow: hidden;
 
-  background-color: ${({ isSelected, theme, isInactive, earlier }) =>
-    isSelected
+  background-color: ${({
+    $isSelected,
+    theme,
+    $isInactive,
+    $earlier,
+    $isFull,
+  }) =>
+    $isSelected
       ? theme.palette.secretGarden
-      : isInactive
+      : $isInactive
         ? rgba(theme.colors.background.element1, 0.15)
-        : earlier
+        : $earlier
           ? rgba(theme.colors.background.element1, 0.3)
-          : rgba(theme.colors.background.element1, 0.7)};
+          : $isFull
+            ? rgba(theme.colors.background.disabled, 0.7)
+            : rgba(theme.colors.background.element1, 0.7)};
 
-  color: ${({ isInactive, theme, isSelected, earlier }) =>
-    isSelected
+  color: ${({ $isInactive, theme, $isSelected, $earlier }) =>
+    $isSelected
       ? theme.colors.text.light
-      : isInactive || earlier
+      : $isInactive || $earlier
         ? theme.colors.text.lessDark
         : theme.colors.text.default};
 
-  transform: ${({ isSelected }) => (isSelected ? 'scale(1.2)' : 'scale(1)')};
+  transform: ${({ $isSelected }) => ($isSelected ? 'scale(1.2)' : 'scale(1)')};
   transition:
     transform 0.1s ease-in-out,
     background-color 0.1s ease-in-out,
@@ -186,10 +194,11 @@ const Day = styled.div<{
     color 0.1s ease-in-out;
 
   &:hover {
-    ${({ isInactive, isSelected, theme, earlier }) =>
-      !isInactive &&
-      !isSelected &&
-      !earlier &&
+    ${({ $isInactive, $isSelected, theme, $earlier, $isFull }) =>
+      !$isInactive &&
+      !$isSelected &&
+      !$earlier &&
+      !$isFull &&
       `
         color: ${theme.colors.text.light};
         background-color: ${theme.colors.background.element3};

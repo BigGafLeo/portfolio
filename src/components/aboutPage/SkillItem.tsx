@@ -22,7 +22,7 @@ export const SkillItem = ({
         <SkillTitle>{title}</SkillTitle>
         <SkillDescription>{description}</SkillDescription>
       </TextContainer>
-      <SkillDate hasDate={date !== ''}>{date}</SkillDate>
+      <SkillDate $hasDate={date !== ''}>{date}</SkillDate>
     </SkillCard>
   );
 };
@@ -93,11 +93,13 @@ const SkillDescription = styled.p`
   white-space: nowrap;
 `;
 
-const SkillDate = styled.span<{ hasDate: boolean }>`
+const SkillDate = styled.span.withConfig({
+  shouldForwardProp: (prop) => prop !== 'hasDate',
+})<{ $hasDate: boolean }>`
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.text.lower};
   white-space: nowrap;
   flex-shrink: 0;
   min-width: 80px;
-  visibility: ${({ hasDate }) => (hasDate ? 'visible' : 'hidden')};
+  visibility: ${({ $hasDate }) => ($hasDate ? 'visible' : 'hidden')};
 `;

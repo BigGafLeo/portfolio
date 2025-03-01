@@ -14,7 +14,7 @@ export const Project: React.FC<ProjectProps> = ({ project }) => {
       {isEven ? (
         <>
           {/* Left Section (Now has background image) */}
-          <InfoSection imageUrl={project.imageUrl}>
+          <InfoSection $imageUrl={project.imageUrl}>
             <Overlay>
               <Title>{project.title}</Title>
               <ShortDescription>{project.shortDescription}</ShortDescription>
@@ -51,7 +51,7 @@ export const Project: React.FC<ProjectProps> = ({ project }) => {
           </TechSection>
 
           {/* Left Section (Now has background image) */}
-          <InfoSection imageUrl={project.imageUrl}>
+          <InfoSection $imageUrl={project.imageUrl}>
             <Overlay>
               <Title>{project.title}</Title>
               <ShortDescription>{project.shortDescription}</ShortDescription>
@@ -79,9 +79,11 @@ const ProjectContainer = styled.div`
 `;
 
 // ✅ **Left Section with Background Image**
-const InfoSection = styled.div<{ imageUrl: string }>`
+const InfoSection = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'iamgeUrl',
+})<{ $imageUrl: string }>`
   flex: 1;
-  background-image: url(${({ imageUrl }) => imageUrl});
+  background-image: url(${({ $imageUrl }) => $imageUrl});
   background-size: cover;
   background-position: center;
   position: relative;
