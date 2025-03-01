@@ -10,7 +10,7 @@ export const Project: React.FC<ProjectProps> = ({ project }) => {
   const isEven = Number(project.id) % 2 === 0;
 
   return (
-    <ProjectContainer>
+    <ProjectContainer $isEven={isEven}>
       {isEven ? (
         <>
           {/* Left Section (Now has background image) */}
@@ -67,15 +67,25 @@ export const Project: React.FC<ProjectProps> = ({ project }) => {
 };
 
 // 📌 **Component Styling**
-const ProjectContainer = styled.div`
+const ProjectContainer = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isEven',
+})<{ $isEven: boolean }>`
   display: flex;
   width: 100%;
-  height: 75vh;
+  min-height: 75vh;
+  height: auto;
   max-width: inherit;
   border-radius: ${({ theme }) => theme.borderRadiuses.xxl};
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.shadows.xl};
   background: ${({ theme }) => theme.palette.white};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    ${({ $isEven }) =>
+      `flex-direction: ${$isEven ? 'column' : 'column-reverse'};`}
+    height: auto;
+    border-radius: ${({ theme }) => theme.borderRadiuses.xl};
+  }
 `;
 
 // ✅ **Left Section with Background Image**

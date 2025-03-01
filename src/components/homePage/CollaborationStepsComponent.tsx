@@ -151,6 +151,7 @@ const Counter = styled.div`
 const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes.heading};
   font-weight: bold;
+  text-align: center;
 `;
 
 const StepNumber = styled.div<{ $scrollDirection: 'up' | 'down' | null }>`

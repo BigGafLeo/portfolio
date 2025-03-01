@@ -41,4 +41,9 @@ const ContactContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.large};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;

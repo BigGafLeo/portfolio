@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 export const MainNav = () => {
   return (
@@ -15,6 +15,11 @@ const NavMenu = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.medium};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const NavItem = styled.a`

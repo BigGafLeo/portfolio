@@ -42,6 +42,13 @@ const Card = styled.div`
   gap: ${({ theme }) => theme.spacing.small};
   min-width: 0;
   padding: ${({ theme }) => theme.spacing.medium};
+
+  /* 🔹 Zmiana układu na kolumnowy dla breakpointa md */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: start;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -61,4 +68,8 @@ const DescContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: left;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    max-width: 100%;
+  }
 `;

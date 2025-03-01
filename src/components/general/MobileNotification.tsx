@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   /* wyśrodkowanie zawartości w pionie i poziomie */
   display: none; /* domyślnie ukrywamy dla szerokich ekranów */
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -60,6 +60,11 @@ const TypeContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 1000px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    gap: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 // **📌 Kolumny (wyśrodkowane)**
@@ -76,6 +81,9 @@ const ColumnContainer = styled.div`
 const HobbiesContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.medium};
+  flex-wrap: wrap; /* ✅ Pozwala elementom zawijać się na mniejszych ekranach */
+  justify-content: center; /* ✅ Wyśrodkowanie elementów */
+  max-width: 100%; /* ✅ Zapobiega wychodzeniu poza ekran */
 `;
 
 // **📌 Stylizacja nagłówków**

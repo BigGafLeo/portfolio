@@ -91,7 +91,7 @@ export const SkillsComponent = () => {
             />
             <SkillItem
               icon="/icons/skills/share.svg"
-              title="Mentoring & Knowledge Sharing"
+              title="Knowledge Sharing"
               description="Helping others grow in tech."
               date=""
             />
@@ -132,6 +132,10 @@ const SkillsWrapper = styled.div`
   width: 100%;
   max-width: 800px;
   gap: ${({ theme }) => theme.spacing.large};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+  }
 `;
 
 const SkillsColumn = styled.div`
@@ -161,4 +165,8 @@ const Divider = styled.div`
   flex-shrink: 0;
   min-height: 100%;
   align-self: stretch;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
 `;

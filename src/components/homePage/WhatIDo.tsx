@@ -33,6 +33,7 @@ export const WhatIDo: React.FC<WhatIDoProps> = ({ serviceRef, action }) => {
 };
 
 const MainContainer = styled.div`
+  margin: ${({ theme }) => theme.spacing.small};
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -49,14 +50,24 @@ const Container = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-template-columns: repeat(
+    2,
+    minmax(150px, 1fr)
+  ); /* 🔹 Minimalna szerokość 150px */
   grid-template-rows: repeat(2, 1fr);
   gap: ${({ theme }) => theme.spacing.large};
-  width: 600px;
+  width: 100%; /* 🔹 Pełna szerokość */
+  max-width: 600px; /* 🔹 Zapobiega nadmiernemu rozciąganiu */
   align-items: stretch;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: 1fr; /* 🔹 Na bardzo małych ekranach jeden element w wierszu */
+  }
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  text-align: center;
+`;
 
 const Tile = styled.button`
   background-color: ${({ theme }) =>

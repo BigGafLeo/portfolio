@@ -116,12 +116,13 @@ export const theme: DefaultTheme = {
     },
   },
   breakpoints: {
-    xs: 0,
-    sm: 600,
-    md: 960,
-    lg: 1280,
-    xl: 1640,
+    xs: '0px',
+    sm: '480px',
+    md: '940px',
+    lg: '1280px',
+    xl: '1640px',
   },
+
   shadows: {
     xs: '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)',
     s: '0px 2px 4px -2px rgba(16, 24, 40, 0.06), 0px 4px 8px -2px rgba(16, 24, 40, 0.10',
@@ -141,7 +142,7 @@ export const theme: DefaultTheme = {
     s: '2px',
     m: '4px',
     l: '8px',
-    xl: '16px',
+    xl: '36px',
     xxl: '80px',
     pill: '9999px',
     round: '50%',

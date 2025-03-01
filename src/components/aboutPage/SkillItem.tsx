@@ -102,4 +102,8 @@ const SkillDate = styled.span.withConfig({
   flex-shrink: 0;
   min-width: 80px;
   visibility: ${({ $hasDate }) => ($hasDate ? 'visible' : 'hidden')};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
