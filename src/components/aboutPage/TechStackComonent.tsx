@@ -44,6 +44,8 @@ export const TechStack = () => {
             <TechItem>Express.js</TechItem>
             <TechItem>GraphQL</TechItem>
             <TechItem>Socket.io</TechItem>
+            <TechItem>ZOD</TechItem>
+            <TechItem>Mocha</TechItem>
           </Items>
         </Category>
 
@@ -54,6 +56,7 @@ export const TechStack = () => {
             <TechItem>React</TechItem>
             <TechItem>TanStack</TechItem>
             <TechItem>React Router</TechItem>
+            <TechItem>Angluar</TechItem>
           </Items>
         </Category>
 
