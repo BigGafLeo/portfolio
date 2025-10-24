@@ -46,6 +46,13 @@ export const CareerTimeline = () => {
       cardDetailedText:
         'Developed and optimized Solidity smart contracts, integrating blockchain with the stablecoin ecosystem. Built and maintained web applications using React, TanStack, Node.js, PostgreSQL, GraphQL, and REST API. Focused on scalability, performance, and synchronization of on-chain and off-chain data while ensuring secure API integrations.',
     },
+    {
+      title: '2025-now',
+      cardTitle: 'Web Developer',
+      cardSubtitle: 'Iusta',
+      cardDetailedText:
+        'As a Full-Stack Developer at iusta, a German legal-tech company, I worked on backend and frontend development using TypeScript, Angular, Node.js, AWS, and SQL. I implemented automation and AI-driven solutions, integrated external systems, and contributed to system architecture. I collaborated with legal engineers and project managers in a Scrum framework to enhance scalability, maintainability, and efficiency.'
+      },
   ];
 
   return (
